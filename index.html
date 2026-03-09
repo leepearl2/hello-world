@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PoC 부서별 시나리오 상세 가이드</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 사이드바 스크롤 독립 */
+    #sidebar { height: 100vh; overflow-y: auto; }
+    /* 메인 콘텐츠 스크롤 */
+    #main   { height: 100vh; overflow-y: auto; }
+    /* 부드러운 스크롤 */
+    html { scroll-behavior: smooth; }
+    /* 활성 TOC 항목 */
+    .toc-link.active { color: #2563eb; font-weight: 600; }
+    /* 코드 인라인 스타일 */
+    code {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-family: 'Courier New', monospace;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+  </style>
+</head>
+<body class="flex bg-gray-50 text-gray-800 font-sans">
+
+  <!-- ========== 왼쪽 고정 사이드바 ========== -->
+  <aside id="sidebar" class="w-64 min-w-[16rem] bg-white border-r border-gray-200 sticky top-0 flex-shrink-0">
+    <div class="px-5 py-6 border-b border-gray-100">
+      <p class="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-1">PoC 가이드</p>
+      <h1 class="text-sm font-bold text-gray-900 leading-snug">부서별 시나리오 상세 가이드</h1>
+      <p class="text-xs text-gray-400 mt-1">기획관리 · CMO · 운영부서</p>
+    </div>
+
+    <nav class="px-4 py-4 text-sm space-y-1">
+
+      <!-- 개요 -->
+      <a href="#overview" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+        <span class="text-base">📋</span> 문서 개요
+      </a>
+
+      <!-- Part 0 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 0</p>
+        <a href="#part0" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>🔐</span> 보안·컴플라이언스 통제
+        </a>
+        <a href="#part0-1" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          0-1. 문서 등급 분류
+        </a>
+        <a href="#part0-2" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          0-2. 개인정보·민감정보
+        </a>
+        <a href="#part0-3" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          0-3. Slack 보안 통제
+        </a>
+        <a href="#part0-4" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          0-4. 문서 보존기간
+        </a>
+        <a href="#part0-5" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          0-5. GWS 보안 기능
+        </a>
+      </div>
+
+      <!-- Part 1 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 1</p>
+        <a href="#part1" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>🏢</span> 기획관리 본부
+        </a>
+        <a href="#part1-1" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          1. 영업지원팀
+        </a>
+        <a href="#part1-2" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          2. 총무팀
+        </a>
+        <a href="#part1-3" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          3. 전략기획부문
+        </a>
+      </div>
+
+      <!-- Part 2 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 2</p>
+        <a href="#part2" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>📣</span> CMO 본부
+        </a>
+        <a href="#part2-4" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          4. 삼다수 사업본부
+        </a>
+        <a href="#part2-5" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          5. 디자인팀
+        </a>
+        <a href="#part2-6" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          6. F&amp;B 영업
+        </a>
+        <a href="#part2-7" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          7. 브랜드 전략
+        </a>
+        <a href="#part2-8" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          8. CMO전략
+        </a>
+      </div>
+
+      <!-- Part 3 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 3</p>
+        <a href="#part3" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>⚙️</span> 운영부서
+        </a>
+        <a href="#part3-9" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          9. IT운영팀
+        </a>
+        <a href="#part3-10" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          10. 정보보호팀
+        </a>
+      </div>
+
+      <!-- Part 4 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 4</p>
+        <a href="#part4" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>🔗</span> 크로스 본부 시나리오
+        </a>
+        <a href="#part4-a" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          A. 신제품/시즌 캠페인 론칭
+        </a>
+        <a href="#part4-b" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          B. 월간 경영보고
+        </a>
+        <a href="#part4-c" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          C. 거래처 계약 프로세스
+        </a>
+        <a href="#part4-d" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          D. 전사 공지 + IT 요청
+        </a>
+        <a href="#part4-e" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          E. 디자인 요청 통합
+        </a>
+        <a href="#part4-f" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          F. CMO-기획관리 협업
+        </a>
+      </div>
+
+      <!-- Part 5 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 5</p>
+        <a href="#part5" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>💬</span> Slack 채널 전체 맵
+        </a>
+      </div>
+
+      <!-- Part 6 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 6</p>
+        <a href="#part6" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>📁</span> GWS 드라이브 구조
+        </a>
+      </div>
+
+      <!-- Part 7 -->
+      <div class="pt-2">
+        <p class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Part 7</p>
+        <a href="#part7" class="toc-link flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
+          <span>📊</span> PoC 성과 측정
+        </a>
+        <a href="#part7-efficiency" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          업무 효율화 지표
+        </a>
+        <a href="#part7-security" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          보안 준수 지표
+        </a>
+        <a href="#part7-gono" class="toc-link flex items-center gap-2 px-3 py-1.5 pl-8 rounded-lg text-gray-500 hover:bg-blue-50 hover:text-blue-700 transition-colors text-xs">
+          Go/No-Go 판단 기준
+        </a>
+      </div>
+
+    </nav>
+  </aside>
+
+  <!-- ========== 오른쪽 메인 콘텐츠 ========== -->
+  <main id="main" class="flex-1 px-8 py-10 max-w-5xl">
+
+    <!-- ===================== 문서 헤더 ===================== -->
+    <section id="overview" class="mb-14">
+      <span class="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">PoC 가이드 v3</span>
+      <h1 class="text-3xl font-bold text-gray-900 mb-1">PoC 부서별 시나리오 상세 가이드</h1>
+      <p class="text-gray-500 mb-6">기획관리 본부 · CMO 본부 · 운영부서</p>
+
+      <div class="bg-blue-50 border-l-4 border-blue-500 rounded-r-xl p-5 mb-5">
+        <p class="font-semibold text-blue-800 mb-1">📌 이 문서의 목적</p>
+        <p class="text-sm text-blue-900 leading-relaxed">PoC 기간 동안 각 부서가 Slack과 GWS를 <strong>실제 업무에 어떻게 적용</strong>할지 구체적인 워크플로우 단위로 정리한 가이드입니다. 각 시나리오마다 현재 방식(AS-IS)과 PoC 방식(TO-BE)을 비교했습니다.</p>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-300 rounded-xl p-5">
+        <p class="font-semibold text-amber-800 mb-3 flex items-center gap-2"><span>⚠️</span> 보안 통제 기준 (전체 시나리오 공통 적용)</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-amber-100">
+              <th class="border border-amber-300 px-3 py-2 text-left font-semibold text-amber-800">항목</th>
+              <th class="border border-amber-300 px-3 py-2 text-left font-semibold text-amber-800">기준</th>
+              <th class="border border-amber-300 px-3 py-2 text-left font-semibold text-amber-800">근거</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-amber-50"><td class="border border-amber-200 px-3 py-2 font-medium">문서 등급 분류</td><td class="border border-amber-200 px-3 py-2">1등급(비밀) / 2등급(부서비) / 3등급(사내비)</td><td class="border border-amber-200 px-3 py-2">「정보자산관리지침」 제11조</td></tr>
+              <tr class="hover:bg-amber-50"><td class="border border-amber-200 px-3 py-2 font-medium">1·2등급 문서 처리</td><td class="border border-amber-200 px-3 py-2">GWS 외부 공유 금지, Drive 접근 권한 최소화</td><td class="border border-amber-200 px-3 py-2">「정보자산관리지침」 제13조</td></tr>
+              <tr class="hover:bg-amber-50"><td class="border border-amber-200 px-3 py-2 font-medium">개인정보 판단</td><td class="border border-amber-200 px-3 py-2">고정 목록 없음. 맥락·결합 가능성 기준으로 「개인정보 보호법」 제2조제1호에 따라 판단</td><td class="border border-amber-200 px-3 py-2">정보보호팀 의견</td></tr>
+              <tr class="hover:bg-amber-50"><td class="border border-amber-200 px-3 py-2 font-medium">민감정보</td><td class="border border-amber-200 px-3 py-2">사상·신념, 건강, 유전정보, 범죄경력, 생체인식정보, 인종·민족 등</td><td class="border border-amber-200 px-3 py-2">「개인정보 보호법」 시행령</td></tr>
+              <tr class="hover:bg-amber-50"><td class="border border-amber-200 px-3 py-2 font-medium">Slack 채널 접근제어</td><td class="border border-amber-200 px-3 py-2">문서 등급에 따라 채널 공개/비공개 결정</td><td class="border border-amber-200 px-3 py-2">정보보호팀 의견</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 0 ===================== -->
+    <section id="part0" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-red-200">
+        <span class="text-3xl">🔐</span>
+        <div>
+          <p class="text-xs text-red-600 font-semibold uppercase tracking-wider">Part 0</p>
+          <h2 class="text-2xl font-bold text-gray-900">보안·컴플라이언스 통제 기준</h2>
+        </div>
+      </div>
+      <p class="text-sm text-gray-500 -mt-4 mb-8 ml-1">정보보호팀 의견과 「정보자산관리지침」을 기반으로, PoC 전 과정에 적용할 보안 통제 프레임워크입니다.</p>
+
+      <!-- 0-1 -->
+      <div id="part0-1" class="mb-10">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-red-600 text-white text-xs flex items-center justify-center font-bold flex-shrink-0">0-1</span>
+          문서 등급 분류 및 GWS 적용 기준
+        </h3>
+        <p class="text-xs text-gray-500 mb-4">「정보자산관리지침」 제11조에 따른 문서 보안 등급</p>
+
+        <!-- 3 grade cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="rounded-xl border-2 border-red-200 bg-red-50 p-4">
+            <div class="inline-flex items-center gap-1.5 bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-full mb-3">🔴 1등급 · 비밀</div>
+            <p class="text-sm font-semibold text-red-800 mb-2">등급 정의</p>
+            <p class="text-xs text-red-700 leading-relaxed mb-3">경영에 영향을 미치는 주요 재무·회계정보, 합병·매각 관련 문서, 중요계약 및 프로젝트 관련 사항 등</p>
+            <div class="bg-red-100 rounded-lg p-3">
+              <p class="text-xs font-semibold text-red-800 mb-1">GWS 적용 기준</p>
+              <p class="text-xs text-red-700">❌ GWS 저장/공유 <strong>금지</strong> (PoC 범위 제외). 기존 문서보안 시스템으로 관리</p>
+            </div>
+          </div>
+          <div class="rounded-xl border-2 border-amber-200 bg-amber-50 p-4">
+            <div class="inline-flex items-center gap-1.5 bg-amber-500 text-white text-xs font-bold px-2.5 py-1 rounded-full mb-3">🟡 2등급 · 부서비</div>
+            <p class="text-sm font-semibold text-amber-800 mb-2">등급 정의</p>
+            <p class="text-xs text-amber-700 leading-relaxed mb-3">인사정보, 영업정책, 고객정보, 시스템 설계서, 계약서·협약서, 대외 공표 금지 문서 등</p>
+            <div class="bg-amber-100 rounded-lg p-3">
+              <p class="text-xs font-semibold text-amber-800 mb-1">GWS 적용 기준</p>
+              <p class="text-xs text-amber-700">⚠️ GWS 저장 <strong>조건부 허용</strong>: 접근 권한 엄격 관리, 외부 공유 차단, 링크 공유 비활성화</p>
+            </div>
+          </div>
+          <div class="rounded-xl border-2 border-green-200 bg-green-50 p-4">
+            <div class="inline-flex items-center gap-1.5 bg-green-600 text-white text-xs font-bold px-2.5 py-1 rounded-full mb-3">🟢 3등급 · 사내비</div>
+            <p class="text-sm font-semibold text-green-800 mb-2">등급 정의</p>
+            <p class="text-xs text-green-700 leading-relaxed mb-3">사내 유통/공유가 허용되는 일반 문서</p>
+            <div class="bg-green-100 rounded-lg p-3">
+              <p class="text-xs font-semibold text-green-800 mb-1">GWS 적용 기준</p>
+              <p class="text-xs text-green-700">✅ GWS 자유 활용. 단, 외부(도메인 외) 공유는 건별 승인</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 기존 지침 vs GWS 비교 -->
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 mb-5">
+          <p class="text-sm font-semibold text-gray-700 mb-3">기존 지침(로컬 PC) vs GWS 환경 비교</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-gray-200">
+                <th class="border border-gray-300 px-3 py-2 text-left font-semibold text-gray-700">기존 (로컬 PC)</th>
+                <th class="border border-gray-300 px-3 py-2 text-left font-semibold text-gray-700">GWS 환경 (권한 기반)</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-gray-50"><td class="border border-gray-200 px-3 py-2">파일 암호화 / 비밀번호 설정</td><td class="border border-gray-200 px-3 py-2">Drive 공유 범위 제한 (특정인만 / 조직 내부만)</td></tr>
+                <tr class="hover:bg-gray-50"><td class="border border-gray-200 px-3 py-2">잠금 장치가 된 안전한 장소 보관</td><td class="border border-gray-200 px-3 py-2">공유 드라이브 접근 권한 관리 (뷰어/편집자 구분)</td></tr>
+                <tr class="hover:bg-gray-50"><td class="border border-gray-200 px-3 py-2">물리적 방치 방지</td><td class="border border-gray-200 px-3 py-2">다운로드·복사·인쇄 제한 옵션</td></tr>
+                <tr class="hover:bg-gray-50"><td class="border border-gray-200 px-3 py-2 text-gray-400">—</td><td class="border border-gray-200 px-3 py-2">Google 서버 측 저장 시 암호화 자동 적용 (AES-256)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- GWS Admin Console 설정 -->
+        <p class="text-sm font-semibold text-gray-700 mb-3">GWS Admin Console 보안 설정 (PoC 필수)</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-100">
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">설정 항목</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">설정 값</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">비고</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">외부 공유 기본값</td><td class="border border-slate-200 px-3 py-2"><span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded">OFF</span> 도메인 내부만 허용</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">Admin Console &gt; Drive &gt; 공유 설정</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">링크 공유 기본값</td><td class="border border-slate-200 px-3 py-2">조직 내 링크 아는 사용자</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">"인터넷의 모든 사용자" 비활성화</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">Trust Rules</td><td class="border border-slate-200 px-3 py-2">OU/그룹 단위 내·외부 공유 범위 세밀 정의</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">공유 설정보다 상위 개념</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">DLP for Drive</td><td class="border border-slate-200 px-3 py-2">주민등록번호, 카드번호 등 민감 데이터 패턴 자동 감지 → 외부 공유 차단</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">GWS Business Plus 이상</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">DLP for Gmail</td><td class="border border-slate-200 px-3 py-2">발송 메일 본문·첨부에서 민감정보 감지 → 차단·격리·수정</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">외부 발송 시 민감정보 유출 방지</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">Context-Aware Access</td><td class="border border-slate-200 px-3 py-2">기기 상태, IP, 위치 기반 접근 제어</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">PoC에서는 모니터링 모드로 시작 권장</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">MDM (모바일 기기 관리)</td><td class="border border-slate-200 px-3 py-2">Advanced MDM — Android 직장 프로필 분리, 앱 제한, 화면 캡처 금지</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">F&amp;B 영업 등 모바일 활용 부서 대상</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">Vault</td><td class="border border-slate-200 px-3 py-2">보관(Archiving), 보존(Retention), 전자적 증거개시 정책 설정</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">메일·채팅·Drive 기록 보관</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">2단계 인증</td><td class="border border-slate-200 px-3 py-2"><span class="bg-red-100 text-red-700 text-xs font-bold px-2 py-0.5 rounded">전 사용자 필수</span></td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">PoC 시작 전 완료</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">Email 보안</td><td class="border border-slate-200 px-3 py-2">SPF/DKIM/DMARC 설정, Security Sandbox(첨부파일 정밀 스캔)</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">피싱·랜섬웨어 방지</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 0-2 -->
+      <div id="part0-2" class="mb-10">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-red-600 text-white text-xs flex items-center justify-center font-bold flex-shrink-0">0-2</span>
+          개인정보·민감정보 처리 기준
+        </h3>
+        <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4 mb-5 text-sm text-blue-900 leading-relaxed">
+          현재 개인정보 및 민감정보를 항목 단위로 정리한 별도의 분류 기준 문서는 운영하고 있지 않습니다. 개인정보 여부는 「개인정보 보호법」상 정의 기준을 적용하여 판단합니다. 특정 항목이 단독으로는 식별성이 없더라도 다른 정보와 결합될 경우 개인을 식별할 수 있으므로, PoC 진행 시에도 <strong>문서에 포함되거나 함께 처리되는 정보의 구성에 따라 법적 정의를 기준으로 판단</strong>하는 방식이 적절합니다.
+        </div>
+
+        <p class="text-sm font-semibold text-gray-700 mb-3">개인정보 유형 예시</p>
+        <div class="overflow-x-auto mb-5">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-100">
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700 w-32">구분</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">내용</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">일반정보</td><td class="border border-slate-200 px-3 py-2">성명, 주민등록번호, 여권번호, 주소, 연락처, 생년월일 등</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">신체정보</td><td class="border border-slate-200 px-3 py-2">얼굴, 홍채, 음성, 유전정보, 지문, 키, 몸무게 등</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">의료·건강</td><td class="border border-slate-200 px-3 py-2">건강상태, 진료기록, 장애등급, 병력, 혈액형 등</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">근로정보</td><td class="border border-slate-200 px-3 py-2">직장, 근무처, 근로경력, 직무평가 기록 등</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">소득·신용정보</td><td class="border border-slate-200 px-3 py-2">봉급액, 대출·담보 내역, 신용카드번호, 통장계좌번호 등</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">통신·위치정보</td><td class="border border-slate-200 px-3 py-2">E-mail, 전화통화내역, 로그파일, GPS 위치정보 등</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-5">
+          <p class="text-sm font-semibold text-red-700 mb-1">민감정보 정의</p>
+          <p class="text-sm text-red-800">사상·신념, 노동조합·정당 가입·탈퇴, 정치적 견해, 건강·성생활 정보, 유전정보, 범죄경력, 생체인식정보, 인종·민족 정보</p>
+        </div>
+
+        <p class="text-sm font-semibold text-gray-700 mb-3">PoC 적용 원칙</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-100">
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">원칙</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">적용 방법</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">최소 수집</td><td class="border border-slate-200 px-3 py-2">PoC 시나리오에서 개인정보는 업무상 필수적인 항목만 포함</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">맥락 기반 판단</td><td class="border border-slate-200 px-3 py-2">단일 항목이 아닌 문서 전체 구성을 고려하여 개인정보 해당 여부 판단</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">결합 가능성 고려</td><td class="border border-slate-200 px-3 py-2">이름 + 부서 + 연락처 등 결합 시 식별 가능한 정보 조합에 주의</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">처리 제한</td><td class="border border-slate-200 px-3 py-2">개인정보 포함 문서는 최소 2등급(부서비) 이상으로 분류 → GWS 공유 범위 제한</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">Slack 주의</td><td class="border border-slate-200 px-3 py-2">개인정보를 Slack 채널에 직접 게시 금지 → "Drive 링크 + 접근 권한 설정"으로 대체</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 0-3 -->
+      <div id="part0-3" class="mb-10">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-red-600 text-white text-xs flex items-center justify-center font-bold flex-shrink-0">0-3</span>
+          Slack 보안 통제
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-100">
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">통제 항목</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">설정</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">비고</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">채널 유형 결정</td><td class="border border-slate-200 px-3 py-2">1·2등급 관련 논의 → <span class="font-semibold text-red-700">비공개 채널</span>, 3등급 → 공개 채널</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">채널 생성 시 문서 등급 고려</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">파일 업로드</td><td class="border border-slate-200 px-3 py-2">1등급 문서 업로드 <span class="font-semibold text-red-700">금지</span>, 2등급은 비공개 채널에서만 허용</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">Slack Enterprise Grid의 경우 DLP 연동 가능</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">외부 사용자</td><td class="border border-slate-200 px-3 py-2">Slack Connect 사용 시 정보보호팀 사전 승인 필수</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">외부 대행사 채널 등</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">메시지 보존</td><td class="border border-slate-200 px-3 py-2">기업 정책에 따른 메시지 보존 기간 설정</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">「정보자산관리지침」 제12조 참고</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">앱/봇 연동</td><td class="border border-slate-200 px-3 py-2">신규 앱 설치 시 정보보호팀 사전 승인</td><td class="border border-slate-200 px-3 py-2 text-xs text-gray-500">데이터 유출 경로 차단</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 0-4 -->
+      <div id="part0-4" class="mb-10">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-red-600 text-white text-xs flex items-center justify-center font-bold flex-shrink-0">0-4</span>
+          문서 보존기간 가이드 (GWS Drive 적용)
+        </h3>
+        <p class="text-xs text-gray-500 mb-4">「정보자산관리지침」 제12조 기준</p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-100">
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">보존기간</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">대상 문서 예시</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">GWS 관리 방법</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-bold text-gray-800">영구</td><td class="border border-slate-200 px-3 py-2">법인 관련 문서, 주요 인·허가서</td><td class="border border-slate-200 px-3 py-2">Drive 장기 보관 폴더 + 삭제 제한 정책</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-bold text-gray-800">10년</td><td class="border border-slate-200 px-3 py-2">상업장부, 주요 계약 관련 문서, 인사·급여 계획</td><td class="border border-slate-200 px-3 py-2">Drive 보관 + 연 1회 정리 검토</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-bold text-gray-800">5년</td><td class="border border-slate-200 px-3 py-2">비밀·부서비 문서, 예산/결산/회계 서류</td><td class="border border-slate-200 px-3 py-2">Drive 보관 + 보존기간 라벨링</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-bold text-gray-800">3년</td><td class="border border-slate-200 px-3 py-2">사내비 문서, 근로계약서, 소비자 불만 처리</td><td class="border border-slate-200 px-3 py-2">Drive 보관 + 만료 시 재분류/파기</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-bold text-gray-800">1년</td><td class="border border-slate-200 px-3 py-2">단기 업무계획, 증명서 발급</td><td class="border border-slate-200 px-3 py-2">Drive 정기 정리</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-bold text-gray-800">90일</td><td class="border border-slate-200 px-3 py-2">단순 업무 문서, 하위 버전, 사내 이메일</td><td class="border border-slate-200 px-3 py-2">자동 정리 또는 수동 삭제</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="bg-blue-50 border-l-4 border-blue-400 rounded-r-lg p-4 mt-4 text-sm text-blue-900">
+          <strong>Vault 연계:</strong> 위 보존기간 정책은 Google Vault의 Retention Rule과 연계하여 자동 관리할 수 있습니다. 기간 만료 시 자동 정리 또는 관리자 알림이 가능합니다.
+        </div>
+      </div>
+
+      <!-- 0-5 -->
+      <div id="part0-5" class="mb-10">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-red-600 text-white text-xs flex items-center justify-center font-bold flex-shrink-0">0-5</span>
+          GWS 네이티브 보안 기능 전체 구성
+        </h3>
+        <p class="text-sm font-semibold text-gray-700 mb-3">보안 영역별 기능 맵</p>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-slate-100">
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">보안 영역</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">주요 기능</th>
+              <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">PoC 적용 방안</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">이메일 (Gmail)</td><td class="border border-slate-200 px-3 py-2">SPF/DKIM/DMARC, DLP, S/MIME, Security Sandbox</td><td class="border border-slate-200 px-3 py-2">DLP 규칙 설정, Sandbox 활성화</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">드라이브 (Drive)</td><td class="border border-slate-200 px-3 py-2">DLP, Trust Rules, Client Side Encryption</td><td class="border border-slate-200 px-3 py-2">Trust Rules로 OU/그룹별 공유 범위 제한, DLP로 민감정보 외부 공유 자동 차단</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">엔드포인트</td><td class="border border-slate-200 px-3 py-2">MDM (Advanced), Context-Aware Access</td><td class="border border-slate-200 px-3 py-2">MDM으로 모바일 직장 프로필 분리, CAA로 기기/위치 기반 접근 제어</td></tr>
+              <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold">보관/규정준수</td><td class="border border-slate-200 px-3 py-2">Vault (Archiving, Retention, eDiscovery)</td><td class="border border-slate-200 px-3 py-2">문서 보존기간 정책(0-4)과 연계, 메일·채팅 기록 보관</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- A사 케이스 -->
+        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+          <p class="text-sm font-semibold text-indigo-800 mb-3">📎 A사 케이스 스터디 참고 (계열사 포함 약 1,100명 규모)</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-indigo-100">
+                <th class="border border-indigo-300 px-3 py-2 text-left font-semibold text-indigo-700">보안 요건</th>
+                <th class="border border-indigo-300 px-3 py-2 text-left font-semibold text-indigo-700">A사 적용 솔루션</th>
+                <th class="border border-indigo-300 px-3 py-2 text-left font-semibold text-indigo-700">우리 PoC 적용 방안</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-indigo-50"><td class="border border-indigo-200 px-3 py-2">SSO 연동 + 접근 제어</td><td class="border border-indigo-200 px-3 py-2">SAML SSO + Context-Aware Access</td><td class="border border-indigo-200 px-3 py-2">SSO 연동 + CAA 모니터링 모드로 시작</td></tr>
+                <tr class="hover:bg-indigo-50"><td class="border border-indigo-200 px-3 py-2">모바일 보안</td><td class="border border-indigo-200 px-3 py-2">Android Advanced MDM (직장 프로필 강제)</td><td class="border border-indigo-200 px-3 py-2">F&amp;B 영업팀 등 모바일 활용 부서 대상 적용</td></tr>
+                <tr class="hover:bg-indigo-50"><td class="border border-indigo-200 px-3 py-2">외부 공유 승인</td><td class="border border-indigo-200 px-3 py-2">Drive Share Management 부가서비스</td><td class="border border-indigo-200 px-3 py-2">Trust Rules + 수동 승인으로 운영, 본도입 시 부가서비스 검토</td></tr>
+                <tr class="hover:bg-indigo-50"><td class="border border-indigo-200 px-3 py-2">모니터링</td><td class="border border-indigo-200 px-3 py-2">DLP + 감사 로그 + BigQuery 대시보드</td><td class="border border-indigo-200 px-3 py-2">DLP 규칙 설정 + 감사 로그 활성화. 대시보드는 PoC 2주차부터 구성</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 1 ===================== -->
+    <section id="part1" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-blue-200">
+        <span class="text-3xl">🏢</span>
+        <div>
+          <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider">Part 1</p>
+          <h2 class="text-2xl font-bold text-gray-900">기획관리 본부</h2>
+        </div>
+      </div>
+
+      <!-- ── 1. 영업지원팀 ── -->
+      <div id="part1-1" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-blue-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">📋</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 1</p>
+            <h3 class="text-lg font-bold">영업지원팀</h3>
+          </div>
+        </div>
+
+        <!-- 시나리오 1-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 1-1</span>
+            견적서·계약서 검토 프로세스
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span> 현재 방식</p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>F&amp;B 영업팀이 견적서 작성 → 메일로 영업지원에 검토 요청</li>
+                <li>영업지원이 파일 다운로드 → 수정 → 재첨부 회신</li>
+                <li>수정 사항 있으면 다시 메일 핑퐁 반복</li>
+                <li class="text-red-600">최종본 혼선 ("견적서_수정_최종_v3_진짜.xlsx")</li>
+              </ol>
+            </div>
+            <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3 flex items-center gap-1.5"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span> PoC 방식</p>
+              <ol class="text-sm text-blue-900 space-y-1.5 list-decimal list-inside">
+                <li>F&amp;B 영업팀이 <code>#contract-review</code>에 Docs/Sheets 링크 + 요청 사항 게시</li>
+                <li>영업지원팀이 해당 문서에서 직접 <strong>제안 모드</strong>로 수정</li>
+                <li>코멘트로 질의/논의 → 스레드에서 빠른 확인</li>
+                <li>영업팀이 제안 승인/거절 → 확정</li>
+                <li>확정본은 Drive 공유 폴더에 자동 보관 (버전 이력 자동)</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-5 text-sm">
+            <span class="text-base flex-shrink-0">🔒</span>
+            <div>
+              <p class="font-semibold text-red-700 mb-1">보안 통제</p>
+              <p class="text-red-800 text-xs leading-relaxed">계약서·견적서는 <strong>2등급(부서비)</strong> 문서. <code>#contract-review</code>는 비공개 채널로 운영. Drive 공유 범위를 영업지원+해당 영업팀으로 제한. 거래처 담당자 연락처 포함 시 Slack 채널에 직접 게시 금지 → Drive 링크로 대체.</p>
+            </div>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">접근 범위</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#contract-review</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">영업지원 + F&amp;B영업 + 전략기획</td><td class="border border-slate-200 px-3 py-2 text-xs">계약/견적 검토 요청·처리</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#sales-support</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">영업지원 + F&amp;B영업</td><td class="border border-slate-200 px-3 py-2 text-xs">일반 영업 지원 요청</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-sales-support</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">영업지원 내부</td><td class="border border-slate-200 px-3 py-2 text-xs">팀 내부 업무 논의</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">GWS 활용</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">도구</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">활용 내용</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">상세</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">문서 등급</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold text-blue-700">Docs</td><td class="border border-slate-200 px-3 py-2">계약서 공동 편집</td><td class="border border-slate-200 px-3 py-2 text-xs">제안 모드로 수정 → 원작성자 승인. 변경 이력 자동 추적</td><td class="border border-slate-200 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded">2등급</span></td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold text-green-700">Sheets</td><td class="border border-slate-200 px-3 py-2">견적서 관리</td><td class="border border-slate-200 px-3 py-2 text-xs">거래처별 견적 이력 시트. 공동 편집으로 실시간 업데이트</td><td class="border border-slate-200 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded">2등급</span></td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold text-green-700">Sheets</td><td class="border border-slate-200 px-3 py-2">매출 실적 관리</td><td class="border border-slate-200 px-3 py-2 text-xs">F&amp;B 영업팀과 공동 관리. 피벗테이블로 거래처별·채널별·월별 분석</td><td class="border border-slate-200 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded">2등급</span></td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-semibold text-blue-600">Drive</td><td class="border border-slate-200 px-3 py-2">거래처별 문서 관리</td><td class="border border-slate-200 px-3 py-2 text-xs">공유 드라이브 &gt; 거래처명 &gt; 계약서/견적서/거래이력 폴더 구조</td><td class="border border-slate-200 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-bold px-1.5 py-0.5 rounded">2등급</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>견적 검토 요청~완료 리드타임 (AS-IS vs TO-BE)</li>
+              <li>"최종본이 어디 있어?" 문의 발생 건수</li>
+              <li>기존 Excel 파일 ↔ Sheets 호환성 이슈 건수</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 시나리오 1-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 1-2</span>
+            주간 매출 실적 리포팅
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>각 영업 채널에서 엑셀 파일로 실적 취합</li>
+                <li>영업지원에서 수작업 합산 → 보고용 엑셀 작성</li>
+                <li>메일로 전략기획/CMO전략에 공유</li>
+              </ol>
+            </div>
+            <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
+              <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-3 flex items-center gap-1.5"><span class="bg-blue-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-blue-900 space-y-1.5 list-decimal list-inside">
+                <li>Google Sheets "매출 실적 통합 시트"에 영업팀이 직접 입력 (온라인/오프라인 탭 분리)</li>
+                <li>요약 탭에 자동 합산·차트 업데이트</li>
+                <li>매주 월요일 9시 Slack 리마인더 → <code>#sales-data</code>에 시트 링크 자동 공유</li>
+                <li>전략기획/CMO전략이 동일 시트에서 바로 확인</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 매출 실적 데이터는 <strong>2등급(부서비)</strong>. Sheets 공유 범위를 관련 부서로 제한. 외부 공유 차단.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 2. 총무팀 ── -->
+      <div id="part1-2" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-teal-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">📢</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 2</p>
+            <h3 class="text-lg font-bold">총무팀</h3>
+          </div>
+        </div>
+
+        <!-- 시나리오 2-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-teal-100 text-teal-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 2-1</span>
+            전사 공지 및 사내 커뮤니케이션
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>메일로 전사 공지 발송</li>
+                <li>"확인했습니다" 회신 요청 → 일부만 회신</li>
+                <li>공지 내용 재문의 빈번</li>
+                <li class="text-red-600">긴급 공지도 메일이라 인지 느림</li>
+              </ol>
+            </div>
+            <div class="bg-teal-50 rounded-xl p-4 border border-teal-200">
+              <p class="text-xs font-bold text-teal-600 uppercase tracking-wider mb-3"><span class="bg-teal-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-teal-900 space-y-1.5 list-decimal list-inside">
+                <li><code>#company-notice</code> 채널에 공지 게시 (📢 접두어 + 핵심 내용 + 스레드 상세)</li>
+                <li>👀 이모지 리액션 요청 → 확인자 실시간 파악</li>
+                <li>핀 고정으로 중요 공지 상단 노출</li>
+                <li>긴급 공지: <code>@channel</code> 멘션으로 전원 알림</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-5 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 인사이동, 급여 관련 등 <strong>2등급</strong> 내용은 Slack 게시는 요약만, 상세는 Drive 링크(접근 권한 설정)로 제공.</p>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">접근 범위</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#company-notice</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전사 (게시는 총무/경영진만)</td><td class="border border-slate-200 px-3 py-2 text-xs">전사 공지 전용. 일반 대화 금지</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#company-general</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전사 오픈</td><td class="border border-slate-200 px-3 py-2 text-xs">자유 소통, 사내 이벤트</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#facility-request</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전사 → 총무</td><td class="border border-slate-200 px-3 py-2 text-xs">시설/비품 요청 (워크플로우 양식)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-admin</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">총무팀 내부</td><td class="border border-slate-200 px-3 py-2 text-xs">팀 내부 업무 논의</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>공지 인지율: 게시 후 24시간 내 👀 리액션 비율</li>
+              <li>시설 요청 처리 누락 건수</li>
+              <li>"그거 어디서 봐요?" 재문의 건수</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 시나리오 2-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-teal-100 text-teal-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 2-2</span>
+            시설·비품 요청 처리
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">전화/메일/구두 요청 → 엑셀 수기 관리 → 처리 누락 발생</p>
+            </div>
+            <div class="bg-teal-50 rounded-xl p-4 border border-teal-200">
+              <p class="text-xs font-bold text-teal-600 mb-2"><span class="bg-teal-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-teal-900 space-y-1.5 list-decimal list-inside">
+                <li>요청자가 <code>#facility-request</code>에서 워크플로우 양식 제출</li>
+                <li>Sheets에 자동 기록 + 채널에 게시</li>
+                <li>총무팀 담당자가 스레드에서 처리 진행</li>
+                <li>완료 시 ✅ 이모지 + Sheets 상태 업데이트</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 3. 전략기획부문 ── -->
+      <div id="part1-3" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-violet-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">📈</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 3</p>
+            <h3 class="text-lg font-bold">전략기획부문</h3>
+          </div>
+        </div>
+
+        <!-- 시나리오 3-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-violet-100 text-violet-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 3-1</span>
+            경영보고서 공동 작성
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-3"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>전략기획에서 보고서 양식(PPT) 메일 배포</li>
+                <li>각 부서가 자기 파트 작성 → 메일로 회신</li>
+                <li>전략기획에서 수작업 합본 (서식 통일)</li>
+                <li>합본 후 재검토 요청 → 수정 → 재합본 반복</li>
+                <li class="text-red-600">보고 전날까지 최종본 확정 못하는 경우 빈번</li>
+              </ol>
+            </div>
+            <div class="bg-violet-50 rounded-xl p-4 border border-violet-200">
+              <p class="text-xs font-bold text-violet-600 mb-3"><span class="bg-violet-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-violet-900 space-y-1.5 list-decimal list-inside">
+                <li>Google Slides에 보고서 템플릿 생성 → 각 부서별 슬라이드 영역 배정</li>
+                <li><code>#exec-report</code> 채널에 링크 공유 + 작성 마감일 안내</li>
+                <li>각 부서가 자기 슬라이드에 직접 입력 (동시 편집, 합본 불필요)</li>
+                <li>전략기획이 전체 흐름·서식 정리 (같은 파일에서)</li>
+                <li>Slack 리마인더: 마감 2일 전, 1일 전, 당일 자동 알림</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-5 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 경영보고서는 <strong>2등급(부서비) 이상</strong>. <code>#exec-report</code>는 비공개 채널. Slides 공유 범위를 보고 관련자로 제한. 완성본은 다운로드/복사 제한 설정.</p>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">접근 범위</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#exec-report</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전략기획 + 각 본부 보고담당</td><td class="border border-slate-200 px-3 py-2 text-xs">경영진 보고 준비. 자료 취합, 마감 관리</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#strategy-weekly</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전략기획 + 관련 부서</td><td class="border border-slate-200 px-3 py-2 text-xs">주간 전략회의 안건 사전 공유·논의</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#project-[과제명]</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">과제 관련자</td><td class="border border-slate-200 px-3 py-2 text-xs">전략과제 단위 진행현황 추적</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-strategy</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전략기획 내부</td><td class="border border-slate-200 px-3 py-2 text-xs">팀 내부 논의</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>경영보고서 취합 소요시간 (AS-IS vs TO-BE)</li>
+              <li>보고서 합본 작업 시간</li>
+              <li>전략과제 현황 파악 소요시간</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 시나리오 3-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-violet-100 text-violet-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 3-2</span>
+            전략과제 관리
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">과제별 현황을 메일/회의에서 구두로 파악 → 추적 어려움</p>
+            </div>
+            <div class="bg-violet-50 rounded-xl p-4 border border-violet-200">
+              <p class="text-xs font-bold text-violet-600 mb-2"><span class="bg-violet-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-violet-900 space-y-1.5 list-decimal list-inside">
+                <li>전략과제별 <code>#project-[과제명]</code> 채널 개설</li>
+                <li>채널 북마크에 관련 Docs/Sheets 링크 고정</li>
+                <li>주간 진행현황을 채널에 정해진 양식으로 게시 (완료/계획/이슈)</li>
+                <li>전략기획이 각 채널 확인 → 종합 현황 Sheets 업데이트</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 2 ===================== -->
+    <section id="part2" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-pink-200">
+        <span class="text-3xl">📣</span>
+        <div>
+          <p class="text-xs text-pink-600 font-semibold uppercase tracking-wider">Part 2</p>
+          <h2 class="text-2xl font-bold text-gray-900">CMO 본부</h2>
+        </div>
+      </div>
+
+      <!-- ── 4. 삼다수 사업본부 ── -->
+      <div id="part2-4" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-cyan-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">💧</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 4</p>
+            <h3 class="text-lg font-bold">삼다수 사업본부</h3>
+          </div>
+        </div>
+
+        <!-- 4-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-cyan-100 text-cyan-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 4-1</span>
+            일일 현황 공유 체계
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">판매량/재고 현황을 메일이나 단톡으로 공유 → 데이터가 흩어져 추적 불가</p>
+            </div>
+            <div class="bg-cyan-50 rounded-xl p-4 border border-cyan-200">
+              <p class="text-xs font-bold text-cyan-600 mb-2"><span class="bg-cyan-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-cyan-900 space-y-1.5 list-decimal list-inside">
+                <li>Google Sheets "삼다수 일일 현황 대시보드" 운영 (탭: 일별 판매량 / 채널별 실적 / 재고 현황 / 이슈 로그)</li>
+                <li>매일 오전 9시 Slack 리마인더 → <code>#samdasu-daily</code>에 시트 링크</li>
+                <li>담당자가 데이터 업데이트 → 요약 차트 자동 갱신</li>
+                <li>특이사항은 스레드에서 바로 논의</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-5 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 판매량·재고 데이터는 <strong>2등급(부서비)</strong>. Sheets 접근 범위를 삼다수사업본부+유관부서로 제한.</p>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">접근 범위</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#samdasu-daily</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">삼다수사업본부 전원</td><td class="border border-slate-200 px-3 py-2 text-xs">일일 현황 공유, 데일리 스탠드업</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#samdasu-issue</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">삼다수사업본부 + IT운영 + 관련 부서</td><td class="border border-slate-200 px-3 py-2 text-xs">긴급 이슈 대응 (품질, 유통, 생산)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#samdasu-planning</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">삼다수사업본부 + 브랜드전략 + CMO전략</td><td class="border border-slate-200 px-3 py-2 text-xs">중장기 사업 계획 논의</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-cyan-100 text-cyan-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 4-2</span>
+            긴급 이슈 대응
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">품질/유통 이슈 발생 → 전화 돌리기 → 관련자 전원 파악까지 시간 소요 → 대응 내역 기록 안 됨</p>
+            </div>
+            <div class="bg-cyan-50 rounded-xl p-4 border border-cyan-200">
+              <p class="text-xs font-bold text-cyan-600 mb-2"><span class="bg-cyan-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-cyan-900 space-y-1.5 list-decimal list-inside">
+                <li>이슈 발생 → <code>#samdasu-issue</code>에 즉시 게시<br><span class="text-xs text-cyan-700">형식: 🚨 [이슈 유형] / 발생 일시 / 영향 범위 / 현재 상황</span></li>
+                <li>관련자 <code>@멘션</code> → 즉시 알림</li>
+                <li>스레드에서 대응 진행 상황 실시간 공유</li>
+                <li>해결 후: 동일 스레드에 원인 분석 + 재발 방지책 기록</li>
+                <li>Google Docs에 이슈 보고서 작성 → Drive 아카이빙</li>
+              </ol>
+            </div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>이슈 발생 → 관련자 전원 인지 소요시간</li>
+              <li>이슈 대응 내역 기록률 (기존 대비)</li>
+              <li>일일 현황 공유 누락일 수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 5. 디자인팀 ── -->
+      <div id="part2-5" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-fuchsia-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">🎨</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 5</p>
+            <h3 class="text-lg font-bold">디자인팀</h3>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-fuchsia-100 text-fuchsia-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 5-1</span>
+            디자인 요청 접수~납품 전체 프로세스
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-3"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>각 부서가 메일/전화/구두로 디자인 요청 (양식 없음)</li>
+                <li>요청 내용 불명확 → 재확인 핑퐁</li>
+                <li>시안 메일 첨부 → 피드백 메일 → 수정본 메일 → 반복</li>
+                <li class="text-red-600">최종 파일이 개인 PC에 산재</li>
+              </ol>
+            </div>
+            <div class="bg-fuchsia-50 rounded-xl p-4 border border-fuchsia-200">
+              <p class="text-xs font-bold text-fuchsia-600 mb-3"><span class="bg-fuchsia-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-fuchsia-900 space-y-1.5 list-decimal list-inside">
+                <li><strong>요청 접수:</strong> <code>#design-request</code>에서 워크플로우 양식 제출 (요청 부서·용도·사이즈·핵심 메시지·마감일)</li>
+                <li><strong>작업 배정:</strong> 디자인팀 리드가 <code>#team-design</code>에서 담당자 배정</li>
+                <li><strong>시안 리뷰:</strong> <code>#design-review</code>에 시안 업로드 → 스레드에서 피드백</li>
+                <li><strong>최종 확정:</strong> 요청자가 ✅ 이모지로 최종 승인</li>
+                <li><strong>파일 관리:</strong> 최종 에셋을 Drive 공유 드라이브에 업로드</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-5 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 브랜드 에셋·디자인 원본은 <strong>2등급(부서비)</strong>. Drive에서 다운로드 권한은 디자인팀+요청 부서로 제한.</p>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">접근 범위</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#design-request</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">전사 → 디자인팀</td><td class="border border-slate-200 px-3 py-2 text-xs">디자인 요청 접수 (워크플로우 양식)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#design-review</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">디자인팀 + 요청 부서</td><td class="border border-slate-200 px-3 py-2 text-xs">시안 공유·피드백·확정</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-design</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">디자인팀 내부</td><td class="border border-slate-200 px-3 py-2 text-xs">작업 배분, 내부 논의, 레퍼런스 공유</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>디자인 요청~최종 납품 평균 소요일 (AS-IS vs TO-BE)</li>
+              <li>요청 내용 불명확으로 인한 재확인 횟수</li>
+              <li>"이게 최종이에요?" 문의 건수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 6. F&B 영업 ── -->
+      <div id="part2-6" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-orange-500 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">🤝</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 6</p>
+            <h3 class="text-lg font-bold">F&amp;B 영업 (온라인·오프라인)</h3>
+          </div>
+        </div>
+
+        <!-- 6-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 6-1</span>
+            거래처 영업 활동 관리
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">미팅 내용을 개인 노트/메모에 기록 → 팀 공유 안 됨 → 담당자 부재 시 히스토리 단절</p>
+            </div>
+            <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
+              <p class="text-xs font-bold text-orange-600 mb-2"><span class="bg-orange-500 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-orange-900 space-y-1.5 list-decimal list-inside">
+                <li>거래처 미팅 후 Google Docs "미팅 노트" 즉시 작성 (모바일 가능)</li>
+                <li>Docs를 <code>#sales-offline</code> 스레드에 링크 공유</li>
+                <li>후속 조치 필요 시 관련자 <code>@멘션</code></li>
+                <li>거래처별 Drive 폴더에 미팅 노트 축적 → 히스토리 관리</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 거래처 미팅 노트에 담당자 연락처(개인정보 결합 가능) 포함 시 Slack에 직접 게시하지 않고 Docs 링크로 공유. 거래처 관련 문서는 <strong>2등급(부서비)</strong>.</p>
+          </div>
+        </div>
+
+        <!-- 6-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 6-2</span>
+            온/오프라인 프로모션 통합 운영
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">온라인 프로모션과 오프라인 프로모션 정보가 분리 → 가격/조건 충돌 발생</p>
+            </div>
+            <div class="bg-orange-50 rounded-xl p-4 border border-orange-200">
+              <p class="text-xs font-bold text-orange-600 mb-2"><span class="bg-orange-500 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-orange-900 space-y-1.5 list-decimal list-inside">
+                <li><code>#sales-promo</code> 채널에서 온/오프 영업이 기획 단계부터 함께 논의</li>
+                <li>Google Sheets "프로모션 캘린더"에 온/오프 일정·조건·가격 통합 관리</li>
+                <li>프로모션 확정 → <code>#sales-promo</code> + <code>#samdasu-daily</code>에 공유</li>
+                <li>실적은 Sheets에서 실시간 추적</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-4 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 가격 정책·거래처별 조건은 <strong>2등급(부서비)</strong>. <code>#sales-promo</code>는 비공개 채널로 운영.</p>
+          </div>
+          <!-- 모바일 검증 포인트 -->
+          <div class="bg-amber-50 border border-amber-300 rounded-xl p-4 mb-4">
+            <p class="text-sm font-semibold text-amber-800 mb-2">⭐ 핵심 검증: 모바일 사용성</p>
+            <p class="text-xs text-amber-700 mb-2">F&amp;B 영업팀은 외근이 많아 <strong>모바일 Slack/GWS 사용성</strong>이 PoC 성패를 좌우합니다.</p>
+            <ul class="text-xs text-amber-800 space-y-1 list-disc list-inside">
+              <li>모바일 Slack: 채널 확인·응답, 파일 미리보기 실용성</li>
+              <li>모바일 Docs: 외근 중 미팅 노트 작성 편의성</li>
+              <li>모바일 Drive: 카탈로그/가격표 로딩 속도</li>
+              <li>모바일 Sheets: 데이터 입력·조회 가능 수준</li>
+            </ul>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#sales-online</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">이커머스 입점, 온라인 프로모션, 온라인 매출</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#sales-offline</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">거래처 미팅 결과, 현장 이슈, 오프라인 매출</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#sales-promo</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">프로모션 통합 기획·조율 (온+오프+사업+브랜드)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#sales-weekly</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">주간 실적 공유, 주요 이슈</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>거래처 미팅 노트 작성률 (기존 대비)</li>
+              <li>온/오프 프로모션 조건 충돌 건수</li>
+              <li>모바일 사용 만족도 (설문)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 7. 브랜드 전략 ── -->
+      <div id="part2-7" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-rose-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">✨</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 7</p>
+            <h3 class="text-lg font-bold">브랜드 전략</h3>
+          </div>
+        </div>
+
+        <!-- 7-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 7-1</span>
+            캠페인 기획~실행 전체 프로세스
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-3"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>캠페인 아이디어 회의 → 회의록 메일 공유</li>
+                <li>브리프 작성 → 메일로 디자인팀 전달</li>
+                <li>디자인팀 시안 → 메일 → 피드백 메일 → 반복</li>
+                <li>확정 후 영업팀에 메일로 프로모션 안내</li>
+              </ol>
+            </div>
+            <div class="bg-rose-50 rounded-xl p-4 border border-rose-200">
+              <p class="text-xs font-bold text-rose-600 mb-3"><span class="bg-rose-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-rose-900 space-y-1.5 list-decimal list-inside">
+                <li><code>#brand-campaign-[캠페인명]</code> 채널 개설 (관련 부서 전원 초대)</li>
+                <li>Google Docs에 캠페인 브리프 공동 작성 (관련 부서 코멘트 의견 추가)</li>
+                <li>동일 채널에서 시안 공유·피드백 (스레드 활용)</li>
+                <li>확정 크리에이티브를 <code>#sales-promo</code>에 공유, Drive에 에셋 업로드</li>
+                <li>캠페인 종료 → 채널 아카이빙 (검색은 가능)</li>
+              </ol>
+            </div>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#brand-campaign-[명]</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">캠페인 단위 프로젝트 채널 (기획~결과 분석)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#brand-weekly</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">주간 브랜드 회의. 안건 사전 공유</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#brand-creative</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">크리에이티브 방향 논의, 레퍼런스 공유</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>캠페인 기획~론칭 리드타임</li>
+              <li>브리프 확정까지 소요 일수</li>
+              <li>관련 부서 간 정보 누락 건수</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 7-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 7-2</span>
+            외부 대행사 협업
+          </h4>
+          <div class="bg-amber-50 border border-amber-300 rounded-xl p-4 mb-4">
+            <p class="text-xs font-semibold text-amber-800">⚠️ 주의</p>
+            <p class="text-xs text-amber-700 mt-1">Slack Connect(외부 조직 초대)는 유료 플랜에 따라 가능 여부가 다릅니다. PoC 에디션에서 지원되는지 사전 확인 필요.</p>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-4 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 외부 대행사와의 Slack Connect 사용 시 <strong>정보보호팀 사전 승인 필수</strong>. 공유 가능 문서 등급은 <strong>3등급(사내비)에 한함</strong>. 2등급 이상 문서는 외부 공유 금지.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+              <p class="text-xs font-bold text-green-700 mb-2">Slack Connect 가능 시</p>
+              <ul class="text-xs text-green-800 space-y-1 list-disc list-inside">
+                <li><code>#agency-[대행사명]</code> 채널에 외부 대행사 초대</li>
+                <li>메일 없이 실시간 소통, 파일 공유, 피드백</li>
+                <li>공유 파일은 3등급 문서만 허용</li>
+              </ul>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-600 mb-2">Slack Connect 불가 시 (대안)</p>
+              <ul class="text-xs text-gray-700 space-y-1 list-disc list-inside">
+                <li>대행사 소통은 기존 메일 유지</li>
+                <li>내부 논의만 <code>#brand-agency-internal</code> 채널에서 진행</li>
+                <li>대행사 납품물은 Drive에 업로드 → 내부 리뷰는 Slack에서</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 8. CMO전략 ── -->
+      <div id="part2-8" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-indigo-600 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">📊</span>
+          <div>
+            <p class="text-xs opacity-75 uppercase tracking-wider">Team 8</p>
+            <h3 class="text-lg font-bold">CMO전략</h3>
+          </div>
+        </div>
+
+        <!-- 8-1 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 8-1</span>
+            CMO 본부 주간 보고 체계
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">각 팀이 주간 보고를 개별 PPT/메일로 → CMO전략에서 수작업 취합 → 본부장 보고</p>
+            </div>
+            <div class="bg-indigo-50 rounded-xl p-4 border border-indigo-200">
+              <p class="text-xs font-bold text-indigo-600 mb-2"><span class="bg-indigo-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-indigo-900 space-y-1.5 list-decimal list-inside">
+                <li>Google Slides "CMO 본부 주간 보고" 템플릿 운영 (팀별 슬라이드 배정)</li>
+                <li>매주 수요일까지 각 팀이 자기 슬라이드 직접 업데이트</li>
+                <li><code>#cmo-weekly</code> 채널에서 화요일 오후 리마인더 자동 발송</li>
+                <li>CMO전략에서 목요일 전체 흐름 정리 + 본부장 코멘트 반영</li>
+                <li>금요일 본부장 보고</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8-2 -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 8-2</span>
+            마케팅 예산 집행 관리
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-2"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <p class="text-sm text-gray-700">예산 집행 현황을 월말에 취합 → 초과 집행 사후 인지</p>
+            </div>
+            <div class="bg-indigo-50 rounded-xl p-4 border border-indigo-200">
+              <p class="text-xs font-bold text-indigo-600 mb-2"><span class="bg-indigo-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-indigo-900 space-y-1.5 list-decimal list-inside">
+                <li>Google Sheets "CMO 마케팅 예산 대시보드" (탭: 전체 요약 / 팀별 예산·집행 / 캠페인별)</li>
+                <li>집행률 자동 계산 + 조건부 서식 (80% 초과→노란색, 100% 초과→빨간색)</li>
+                <li>각 팀 담당자가 집행 시 실시간 입력</li>
+                <li>예산 초과 예상 시 <code>#cmo-budget</code> 스레드에서 즉시 논의 → 재배분 의사결정</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-5 text-sm">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> 예산·재무 데이터는 <strong>2등급(부서비)</strong>. Sheets 접근 권한을 CMO전략+각 팀 예산담당으로 제한.</p>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#cmo-leadership</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">CMO 본부장 + 각 팀 리드 — 본부 의사결정</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#cmo-weekly</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">CMO 본부 전원 — 주간 보고 취합·공유</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#cmo-budget</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">CMO전략 + 각 팀 예산담당 — 예산 집행 현황</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-cmo-strategy</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">CMO전략 내부</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>주간 보고 취합 소요시간 (AS-IS vs TO-BE)</li>
+              <li>예산 초과 집행 사전 인지 건수</li>
+              <li>본부장 보고 자료 준비 소요시간</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 3 ===================== -->
+    <section id="part3" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-slate-300">
+        <span class="text-3xl">⚙️</span>
+        <div>
+          <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Part 3</p>
+          <h2 class="text-2xl font-bold text-gray-900">운영부서 (IT운영팀 · 정보보호팀)</h2>
+        </div>
+      </div>
+      <div class="bg-slate-50 border-l-4 border-slate-400 rounded-r-lg p-4 mb-8 text-sm text-slate-700">
+        운영부서는 PoC 인프라를 관리하고 보안 통제를 수행하는 핵심 부서입니다. <strong>사용 부서와 역할이 다르므로</strong> 별도 섹션으로 분리합니다.
+      </div>
+
+      <!-- 9. IT운영팀 -->
+      <div id="part3-9" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-slate-700 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">🖥️</span>
+          <div><p class="text-xs opacity-75 uppercase tracking-wider">Team 9</p><h3 class="text-lg font-bold">IT운영팀 — PoC 인프라 관리 + 전사 IT 지원</h3></div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 9-1</span>IT 요청 접수 및 처리
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-3"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>직원이 IT팀에 전화 or 메일로 요청 ("VPN 안 돼요")</li>
+                <li>IT 담당자가 메일함에서 요청 확인 (늦게 볼 수 있음)</li>
+                <li>처리 후 메일로 회신</li>
+                <li class="text-red-600">요청 이력이 개인 메일함에 산재 → 통계/추적 불가</li>
+              </ol>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+              <p class="text-xs font-bold text-slate-600 mb-3"><span class="bg-slate-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-slate-900 space-y-1.5 list-decimal list-inside">
+                <li>직원이 <code>#it-helpdesk</code>에서 Slack 워크플로우 양식 제출 (요청자·유형·긴급도·상세)</li>
+                <li>양식 제출 → 채널 자동 게시 + Google Sheets에 자동 기록</li>
+                <li>IT 담당자가 스레드에서 처리 진행</li>
+                <li>처리 완료 시 ✅ 이모지 + Sheets 상태 업데이트</li>
+                <li>Sheets에서 요청 건수·평균 처리시간·유형별 분포 자동 집계</li>
+              </ol>
+            </div>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4">
+            <span class="flex-shrink-0">🔒</span>
+            <p class="text-xs text-red-800"><strong>보안 통제:</strong> IT 요청에 계정 비밀번호 등 민감정보 포함 금지 — 양식에 안내 문구 추가. 계정 관련 요청은 별도 보안 채널에서 DM으로 처리.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 9-2</span>시스템 장애 대응
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
+              <p class="text-xs font-bold text-gray-500 mb-3"><span class="bg-gray-400 text-white px-2 py-0.5 rounded text-xs">AS-IS</span></p>
+              <ol class="text-sm text-gray-700 space-y-1.5 list-decimal list-inside">
+                <li>장애 감지 → IT팀 내부 전화/카톡 공유</li>
+                <li>전사 공지: 메일 발송 (직원들 즉시 확인 어려움)</li>
+                <li class="text-red-600">복구 진행 중 상황 업데이트 어려움</li>
+              </ol>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+              <p class="text-xs font-bold text-slate-600 mb-3"><span class="bg-slate-600 text-white px-2 py-0.5 rounded text-xs">TO-BE</span></p>
+              <ol class="text-sm text-slate-900 space-y-1.5 list-decimal list-inside">
+                <li>장애 감지 → <code>#team-it</code>에서 내부 공유 + 담당자 배정</li>
+                <li><code>#it-system-status</code>에 장애 공지 게시 + 핀 고정<br><span class="text-xs text-slate-600">🚨 [시스템명] 장애 / 영향 범위 / 예상 복구 시간</span></li>
+                <li>복구 진행 중: 동일 스레드에 실시간 업데이트</li>
+                <li>복구 완료: 스레드에 완료 공지 + 이모지 변경 (🚨→✅)</li>
+                <li>사후: Google Docs 장애 보고서 작성 → <code>#team-it</code> 공유</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 9-3</span>GWS/Slack Admin 관리 (PoC 전용)
+          </h4>
+          <div class="overflow-x-auto mb-5">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">관리 항목</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">내용</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">도구</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">사용자 프로비저닝</td><td class="border border-slate-200 px-3 py-2 text-xs">PoC 대상 부서 사용자 계정 생성·관리</td><td class="border border-slate-200 px-3 py-2 text-xs font-mono">GWS Admin Console</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">OU 설정</td><td class="border border-slate-200 px-3 py-2 text-xs">본부별·팀별 OU 구성, 정책 차등 적용</td><td class="border border-slate-200 px-3 py-2 text-xs font-mono">GWS Admin Console</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">보안 정책 적용</td><td class="border border-slate-200 px-3 py-2 text-xs">2단계 인증 강제, 외부 공유 차단, DLP 규칙</td><td class="border border-slate-200 px-3 py-2 text-xs font-mono">GWS Admin Console</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">Slack 워크스페이스 관리</td><td class="border border-slate-200 px-3 py-2 text-xs">채널 생성/아카이빙, 사용자 권한, 앱 승인</td><td class="border border-slate-200 px-3 py-2 text-xs font-mono">Slack Admin</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">감사 로그 모니터링</td><td class="border border-slate-200 px-3 py-2 text-xs">Drive 활동 로그, Slack 접근 로그 정기 확인</td><td class="border border-slate-200 px-3 py-2 text-xs font-mono">GWS Admin + Slack Analytics</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium">사용량 리포팅</td><td class="border border-slate-200 px-3 py-2 text-xs">PoC 기간 중 도구 사용량 주간 보고</td><td class="border border-slate-200 px-3 py-2 text-xs font-mono">Sheets 대시보드</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">Slack 채널 구성</p>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100">
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th>
+                <th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th>
+              </tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#it-helpdesk</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">IT 요청 접수·처리 (워크플로우 양식)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#it-system-status</td><td class="border border-slate-200 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">시스템 장애·점검·복구 공지 (읽기 중심)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-it</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">IT운영팀 내부 논의·업무 분배</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#poc-admin</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">IT운영 + 정보보호 — PoC 관리자 전용</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>IT 요청 접수~해결 평균 소요시간 (AS-IS vs TO-BE)</li>
+              <li>동일 요청 반복 건수 (매뉴얼 셀프서비스 효과)</li>
+              <li>시스템 공지 인지율 (Slack 채널 조회 수 vs 기존 메일 열람률)</li>
+              <li>PoC 기간 보안 이슈 발생 건수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. 정보보호팀 -->
+      <div id="part3-10" class="mb-12">
+        <div class="flex items-center gap-3 mb-6 bg-red-700 text-white rounded-xl px-5 py-4">
+          <span class="text-2xl">🛡️</span>
+          <div><p class="text-xs opacity-75 uppercase tracking-wider">Team 10</p><h3 class="text-lg font-bold">정보보호팀 — PoC 보안 거버넌스 · 통제 · 감사</h3></div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 10-1</span>PoC 보안 거버넌스 수행
+          </h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-red-50"><th class="border border-red-200 px-3 py-2 text-left font-semibold text-red-800">단계</th><th class="border border-red-200 px-3 py-2 text-left font-semibold text-red-800">역할</th><th class="border border-red-200 px-3 py-2 text-left font-semibold text-red-800">상세</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-blue-100 text-blue-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 사전</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">보안 요건 정의</td><td class="border border-red-100 px-3 py-2 text-xs">GWS/Slack 보안 설정 기준 수립, 문서 등급별 사용 가이드 작성</td></tr>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-blue-100 text-blue-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 사전</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">보안 설정 검증</td><td class="border border-red-100 px-3 py-2 text-xs">IT운영팀이 적용한 Admin Console 보안 설정 검수</td></tr>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-blue-100 text-blue-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 사전</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">개인정보 처리 가이드 제공</td><td class="border border-red-100 px-3 py-2 text-xs">PoC 시나리오 내 개인정보 취급 기준 안내</td></tr>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 진행</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">주간 보안 점검</td><td class="border border-red-100 px-3 py-2 text-xs">감사 로그 리뷰, 외부 공유 시도 모니터링, 비인가 앱 설치 확인</td></tr>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 진행</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">보안 이슈 대응</td><td class="border border-red-100 px-3 py-2 text-xs">데이터 유출 의심 건 조사, 정책 위반 건 조치</td></tr>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-amber-100 text-amber-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 진행</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">보안 교육</td><td class="border border-red-100 px-3 py-2 text-xs">PoC 참여 부서 대상 GWS/Slack 보안 유의사항 교육</td></tr>
+                <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2"><span class="bg-green-100 text-green-700 text-xs font-semibold px-1.5 py-0.5 rounded">PoC 종료</span></td><td class="border border-red-100 px-3 py-2 font-medium text-xs">보안 평가 보고</td><td class="border border-red-100 px-3 py-2 text-xs">PoC 기간 보안 이슈 종합, Go/No-Go 판단 시 보안 의견 제시</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-5">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 10-2</span>주간 보안 점검 프로세스
+          </h4>
+          <ol class="space-y-3 text-sm">
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">1</span><div><strong>매주 월요일</strong>: IT운영팀이 <code>#poc-admin</code>에 전주 감사 로그 요약 공유<br><span class="text-xs text-gray-500">GWS: 외부 공유 시도 건수, 대량 다운로드, 비정상 로그인 / Slack: 외부 앱 설치 시도, 파일 업로드 현황</span></div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">2</span><div><strong>정보보호팀 리뷰</strong>: 로그 확인 → 이상 징후 시 <code>#poc-admin</code> 스레드에서 조사 요청</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">3</span><div><strong>이슈 발생 시</strong>: Google Docs에 조사 보고서 작성 → 조치 사항 기록</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-red-600 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">4</span><div><strong>주간 보안 리포트</strong>: Sheets에 점검 결과 누적 → PoC 종료 시 종합 평가</div></li>
+          </ol>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+          <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2 text-base">
+            <span class="bg-red-100 text-red-700 text-xs font-bold px-2.5 py-1 rounded-full">시나리오 10-3</span>문서 등급별 통제 모니터링
+          </h4>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100"><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">모니터링 항목</th><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">점검 방법</th><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">주기</th><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">조치</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-red-50"><td class="border border-slate-200 px-3 py-2 font-medium text-red-700 text-xs">1등급 문서의 GWS 유입</td><td class="border border-slate-200 px-3 py-2 text-xs">Drive 감사 로그 키워드 검색</td><td class="border border-slate-200 px-3 py-2 text-xs">주 1회</td><td class="border border-slate-200 px-3 py-2 text-xs">즉시 삭제 + 담당자 안내</td></tr>
+                <tr class="hover:bg-amber-50"><td class="border border-slate-200 px-3 py-2 font-medium text-amber-700 text-xs">2등급 문서 외부 공유</td><td class="border border-slate-200 px-3 py-2 text-xs">Admin Console 외부 공유 로그</td><td class="border border-slate-200 px-3 py-2 text-xs">주 1회</td><td class="border border-slate-200 px-3 py-2 text-xs">공유 즉시 해제 + 담당자 경고</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium text-xs">개인정보 포함 문서</td><td class="border border-slate-200 px-3 py-2 text-xs">DLP 규칙 탐지 알림</td><td class="border border-slate-200 px-3 py-2 text-xs">실시간</td><td class="border border-slate-200 px-3 py-2 text-xs">해당 문서 접근 권한 재검토</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium text-xs">Slack 파일 업로드</td><td class="border border-slate-200 px-3 py-2 text-xs">비공개 채널 외부의 2등급 파일</td><td class="border border-slate-200 px-3 py-2 text-xs">주 1회</td><td class="border border-slate-200 px-3 py-2 text-xs">삭제 요청 + 가이드 재안내</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-medium text-xs">비인가 앱 설치</td><td class="border border-slate-200 px-3 py-2 text-xs">Slack 앱 설치 로그</td><td class="border border-slate-200 px-3 py-2 text-xs">주 1회</td><td class="border border-slate-200 px-3 py-2 text-xs">미승인 앱 제거</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-xs font-semibold text-emerald-700 mb-2">📊 측정 지표</p>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc list-inside">
+              <li>문서 등급 정책 위반 건수 (주간)</li>
+              <li>외부 공유 시도 탐지~조치 소요시간</li>
+              <li>DLP 탐지 건수 및 조치율</li>
+              <li>보안 교육 완료율 (PoC 참여자 중)</li>
+              <li>PoC 기간 총 보안 인시던트 건수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 4 ===================== -->
+    <section id="part4" class="mb-14">
+      <div class="flex items-center gap-3 mb-4 pb-4 border-b-2 border-purple-200">
+        <span class="text-3xl">🔗</span>
+        <div>
+          <p class="text-xs text-purple-600 font-semibold uppercase tracking-wider">Part 4</p>
+          <h2 class="text-2xl font-bold text-gray-900">크로스 본부 시나리오</h2>
+        </div>
+      </div>
+      <div class="bg-purple-50 border-l-4 border-purple-400 rounded-r-lg p-4 mb-8 text-sm text-purple-900">
+        부서 내 시나리오만으로는 부족합니다. <strong>본부 간 벽이 얼마나 낮아지는가</strong>가 PoC 핵심 가치입니다.
+      </div>
+
+      <!-- ── A ── -->
+      <div id="part4-a" class="mb-8">
+        <div class="bg-white rounded-xl border border-purple-200 shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">A</span>
+            <div>
+              <h4 class="font-bold text-gray-900">신제품/시즌 캠페인 론칭</h4>
+              <p class="text-xs text-gray-500">삼다수사업본부 + 브랜드전략 + 디자인 + F&amp;B영업(온/오프) + CMO전략</p>
+            </div>
+          </div>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 text-xs text-red-800">
+            <strong>현재 문제:</strong> 사업부 → 브랜드전략 → 디자인 → 영업이 순차적으로 메일 전달하는 구조. 단계별 전달 과정에서 정보 누락·지연 발생. 영업이 캠페인 세부 내용을 론칭 직전에야 파악.
+          </div>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-purple-50"><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800 w-16">단계</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">활동</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">Slack</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">GWS</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">1. 기획</td><td class="border border-purple-100 px-3 py-2 text-xs">캠페인 방향·목표 수립</td><td class="border border-purple-100 px-3 py-2 text-xs font-mono">#launch-[제품명] 채널 개설, 전 부서 초대</td><td class="border border-purple-100 px-3 py-2 text-xs">Docs: 캠페인 브리프 공동 작성</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">2. 브리프 확정</td><td class="border border-purple-100 px-3 py-2 text-xs">관련 부서 의견 취합·확정</td><td class="border border-purple-100 px-3 py-2 text-xs">채널 스레드에서 논의</td><td class="border border-purple-100 px-3 py-2 text-xs">Docs: 코멘트로 피드백 → 제안 모드 수정</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">3. 크리에이티브</td><td class="border border-purple-100 px-3 py-2 text-xs">디자인 시안 작업</td><td class="border border-purple-100 px-3 py-2 text-xs">동일 채널에 시안 공유 → 스레드 피드백</td><td class="border border-purple-100 px-3 py-2 text-xs">Drive: 에셋 폴더에 시안·최종본 관리</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">4. 영업 준비</td><td class="border border-purple-100 px-3 py-2 text-xs">프로모션 조건·자료 준비</td><td class="border border-purple-100 px-3 py-2 text-xs">동일 채널에서 영업팀 실시간 인지</td><td class="border border-purple-100 px-3 py-2 text-xs">Sheets: 프로모션 조건표, 거래처별 안내 자료</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">5. 론칭</td><td class="border border-purple-100 px-3 py-2 text-xs">캠페인 시작</td><td class="border border-purple-100 px-3 py-2 text-xs">채널에 론칭 공지 + 체크리스트 확인</td><td class="border border-purple-100 px-3 py-2 text-xs">Calendar: 론칭 일정, Meet: 론칭 데이 미팅</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">6. 모니터링</td><td class="border border-purple-100 px-3 py-2 text-xs">실적 추적·이슈 대응</td><td class="border border-purple-100 px-3 py-2 text-xs">채널에서 일일 현황 공유, 이슈 즉시 공유</td><td class="border border-purple-100 px-3 py-2 text-xs">Sheets: 실시간 성과 트래킹</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">7. 결과 분석</td><td class="border border-purple-100 px-3 py-2 text-xs">성과 정리·회고</td><td class="border border-purple-100 px-3 py-2 text-xs">채널에 결과 보고 공유 → 아카이빙</td><td class="border border-purple-100 px-3 py-2 text-xs">Slides: 캠페인 결과 보고서</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-3 mb-3 text-xs">
+            <span>🔒</span><p class="text-red-800"><strong>보안:</strong> 캠페인 채널은 비공개. 프로모션 조건(가격 정책) 포함 문서는 2등급 관리.</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+            <p class="text-xs font-semibold text-emerald-700 mb-1">핵심 검증</p>
+            <ul class="text-xs text-emerald-800 space-y-0.5 list-disc list-inside">
+              <li>기획~론칭 전체 리드타임 단축 여부</li>
+              <li>영업팀이 캠페인 세부 내용을 얼마나 일찍 파악하는지</li>
+              <li>부서 간 정보 누락 건수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── B ── -->
+      <div id="part4-b" class="mb-8">
+        <div class="bg-white rounded-xl border border-purple-200 shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">B</span>
+            <div>
+              <h4 class="font-bold text-gray-900">월간 경영보고 프로세스</h4>
+              <p class="text-xs text-gray-500">전략기획 + CMO전략 + 삼다수사업본부 + (필요 시 기타 부서)</p>
+            </div>
+          </div>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 text-xs text-red-800">
+            <strong>현재 문제:</strong> 전략기획이 각 부서에 보고 양식 메일 배포 → 각 부서 작성 → 메일 회신 → 수작업 합본. 마감 지연, 서식 불일치, 합본 오류 빈번.
+          </div>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-purple-50"><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">일정</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">활동</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">Slack</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">GWS</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-bold text-xs">D-7</td><td class="border border-purple-100 px-3 py-2 text-xs">보고서 템플릿 배포</td><td class="border border-purple-100 px-3 py-2 text-xs font-mono">#exec-report에 Slides 링크 + 작성 안내</td><td class="border border-purple-100 px-3 py-2 text-xs">Slides: 부서별 슬라이드 영역 배정</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-bold text-xs">D-5</td><td class="border border-purple-100 px-3 py-2 text-xs">데이터 입력</td><td class="border border-purple-100 px-3 py-2 text-xs">리마인더: "D-5 데이터 업데이트 부탁드립니다"</td><td class="border border-purple-100 px-3 py-2 text-xs">Sheets: 실적 데이터 시트에 각 부서 입력</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-bold text-xs">D-3</td><td class="border border-purple-100 px-3 py-2 text-xs">1차 작성 마감</td><td class="border border-purple-100 px-3 py-2 text-xs">리마인더: "D-3 1차 작성 마감입니다"</td><td class="border border-purple-100 px-3 py-2 text-xs">Slides: 각 부서 자기 슬라이드 작성 완료</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-bold text-xs">D-2</td><td class="border border-purple-100 px-3 py-2 text-xs">전략기획 리뷰</td><td class="border border-purple-100 px-3 py-2 text-xs">코멘트로 수정 요청 → 스레드에서 확인</td><td class="border border-purple-100 px-3 py-2 text-xs">Slides: 코멘트 + 제안 모드</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-bold text-xs">D-1</td><td class="border border-purple-100 px-3 py-2 text-xs">최종 확정</td><td class="border border-purple-100 px-3 py-2 text-xs">채널에 "최종 확정" 공지</td><td class="border border-purple-100 px-3 py-2 text-xs">Slides: 발표자 노트 정리, PDF 백업</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-bold text-xs">D-Day</td><td class="border border-purple-100 px-3 py-2 text-xs">보고</td><td class="border border-purple-100 px-3 py-2 text-xs">—</td><td class="border border-purple-100 px-3 py-2 text-xs">Slides: 화면 공유 or Meet 발표</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+            <p class="text-xs font-semibold text-emerald-700 mb-1">핵심 검증</p>
+            <ul class="text-xs text-emerald-800 space-y-0.5 list-disc list-inside">
+              <li>합본 작업 시간 (기존 수작업 vs Slides 공동 편집)</li>
+              <li>마감 준수율 (리마인더 효과)</li>
+              <li>서식 불일치 건수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── C ── -->
+      <div id="part4-c" class="mb-8">
+        <div class="bg-white rounded-xl border border-purple-200 shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">C</span>
+            <div>
+              <h4 class="font-bold text-gray-900">거래처 계약 프로세스</h4>
+              <p class="text-xs text-gray-500">F&amp;B영업 + 영업지원 + 전략기획(필요 시)</p>
+            </div>
+          </div>
+          <div class="overflow-x-auto mb-4">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-purple-50"><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">단계</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">활동</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">Slack</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">GWS</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">1. 초안 작성</td><td class="border border-purple-100 px-3 py-2 text-xs">영업이 계약서 초안 작성</td><td class="border border-purple-100 px-3 py-2 text-xs font-mono">#contract-review에 "검토 요청" + Docs 링크</td><td class="border border-purple-100 px-3 py-2 text-xs">Docs: 계약서 템플릿에서 작성</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">2. 영업지원 검토</td><td class="border border-purple-100 px-3 py-2 text-xs">영업지원이 제안 모드로 수정</td><td class="border border-purple-100 px-3 py-2 text-xs">스레드에서 주요 수정 사항 요약</td><td class="border border-purple-100 px-3 py-2 text-xs">Docs: 제안 모드 + 코멘트</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">3. 협의</td><td class="border border-purple-100 px-3 py-2 text-xs">이견 사항 논의</td><td class="border border-purple-100 px-3 py-2 text-xs">스레드에서 빠른 Q&amp;A</td><td class="border border-purple-100 px-3 py-2 text-xs">Docs: 코멘트 대화</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">4. 확정</td><td class="border border-purple-100 px-3 py-2 text-xs">영업이 제안 승인 → 확정</td><td class="border border-purple-100 px-3 py-2 text-xs">스레드에 "확정" 공지</td><td class="border border-purple-100 px-3 py-2 text-xs">Docs: 제안 일괄 승인. Drive: 계약서 폴더에 보관</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-semibold text-xs">5. 아카이빙</td><td class="border border-purple-100 px-3 py-2 text-xs">체결 계약서 보관</td><td class="border border-purple-100 px-3 py-2 text-xs">—</td><td class="border border-purple-100 px-3 py-2 text-xs font-mono">Drive: 거래처명 &gt; 계약서 &gt; [날짜]_계약서</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flex gap-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg p-3 mb-3 text-xs">
+            <span>🔒</span><p class="text-red-800"><strong>보안:</strong> 계약서는 2등급(부서비). 거래처 담당자 정보(개인정보) 포함 시 Drive 접근 권한 최소화. 계약 완료 후 보존기간(10년) 적용.</p>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+            <p class="text-xs font-semibold text-emerald-700 mb-1">핵심 검증</p>
+            <ul class="text-xs text-emerald-800 space-y-0.5 list-disc list-inside">
+              <li>계약 검토 요청~확정 리드타임</li>
+              <li>계약서 버전 혼선 건수</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── D ── -->
+      <div id="part4-d" class="mb-8">
+        <div class="bg-white rounded-xl border border-purple-200 shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">D</span>
+            <div>
+              <h4 class="font-bold text-gray-900">전사 공지 + IT 요청 체계</h4>
+              <p class="text-xs text-gray-500">총무 → 전사 / IT운영 ← 전사</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="bg-teal-50 rounded-xl p-4 border border-teal-200">
+              <p class="text-xs font-bold text-teal-700 mb-2">전사 공지 (총무 → 전사)</p>
+              <ol class="text-xs text-teal-900 space-y-1.5 list-decimal list-inside">
+                <li><code>#company-notice</code>에 공지 게시 (게시 권한: 총무/경영진만)</li>
+                <li><code>@channel</code> 알림 + 👀 리액션 요청</li>
+                <li>상세 내용은 Docs 링크 or 스레드에 추가</li>
+                <li>24시간 후 리액션 수 체크 → 미확인자 리마인드</li>
+              </ol>
+            </div>
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+              <p class="text-xs font-bold text-slate-700 mb-2">IT 요청 (전사 → IT운영)</p>
+              <ol class="text-xs text-slate-900 space-y-1.5 list-decimal list-inside">
+                <li>전사 직원이 <code>#it-helpdesk</code>에서 워크플로우 양식 제출</li>
+                <li>IT팀 자동 알림 → 담당자 배정</li>
+                <li>스레드에서 처리 → ✅ 완료</li>
+                <li>자주 묻는 질문은 Drive 매뉴얼 링크로 셀프서비스 유도</li>
+              </ol>
+            </div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+            <p class="text-xs font-semibold text-emerald-700 mb-1">핵심 검증</p>
+            <ul class="text-xs text-emerald-800 space-y-0.5 list-disc list-inside">
+              <li>공지 인지율 (24시간 내 확인 비율)</li>
+              <li>IT 요청 접수~해결 평균 시간</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── E ── -->
+      <div id="part4-e" class="mb-8">
+        <div class="bg-white rounded-xl border border-purple-200 shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">E</span>
+            <div>
+              <h4 class="font-bold text-gray-900">디자인 요청 통합 프로세스</h4>
+              <p class="text-xs text-gray-500">브랜드전략/삼다수사업/F&amp;B영업 → 디자인팀</p>
+            </div>
+          </div>
+          <div class="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 text-xs text-red-800">
+            <strong>현재 문제:</strong> 각 부서가 각자 방식으로 디자인 요청 → 디자인팀 업무 우선순위 혼란. 요청 중복, 마감일 충돌 빈번.
+          </div>
+          <ol class="space-y-2 text-sm mb-4">
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">1</span><div><strong>모든 부서</strong>가 <code>#design-request</code>에서 동일한 워크플로우 양식으로 요청</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">2</span><div>양식 제출 → Sheets "디자인 요청 현황판"에 자동 기록<br><span class="text-xs text-gray-500">컬럼: 요청일·요청부서·담당 디자이너·유형·마감일·상태·우선순위</span></div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">3</span><div>디자인팀 리드가 매일 오전 현황판 확인 → 우선순위 배정</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">4</span><div>시안 완성 → <code>#design-review</code>에서 요청 부서와 피드백</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">5</span><div>확정 에셋 → Drive 공유 드라이브에 업로드</div></li>
+          </ol>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+            <p class="text-xs font-semibold text-emerald-700 mb-1">핵심 검증</p>
+            <ul class="text-xs text-emerald-800 space-y-0.5 list-disc list-inside">
+              <li>디자인 요청 양식 통일로 재확인 핑퐁 감소 여부</li>
+              <li>우선순위 기반 업무 배분이 실제 마감 준수율을 높이는지</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── F ── -->
+      <div id="part4-f" class="mb-8">
+        <div class="bg-white rounded-xl border border-purple-200 shadow-sm p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold text-sm flex items-center justify-center flex-shrink-0">F</span>
+            <div>
+              <h4 class="font-bold text-gray-900">CMO-기획관리 본부 간 전략 과제 협업</h4>
+              <p class="text-xs text-gray-500">CMO전략 + 전략기획 + (과제별 유관부서)</p>
+            </div>
+          </div>
+          <ol class="space-y-2 text-sm mb-4">
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">1</span><div>전사 전략과제 중 CMO 관련 과제별 <code>#project-[과제명]</code> 채널 운영</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">2</span><div>채널 북마크에 고정: Docs(과제 정의서) · Sheets(마일스톤 트래커) · Drive(관련 문서 폴더)</div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">3</span><div>주간 현황 게시 (정해진 양식):
+              <pre class="mt-1 bg-gray-100 rounded p-2 text-xs font-mono leading-relaxed">📊 [과제명] 주간 현황 (3/1~3/7)
+✅ 완료: ...
+🔄 진행 중: ...
+🚨 이슈: ...
+📅 다음 주 계획: ...</pre>
+            </div></li>
+            <li class="flex gap-3"><span class="w-6 h-6 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center flex-shrink-0 mt-0.5 font-bold">4</span><div>전략기획에서 각 과제 채널 확인 → 종합 현황 Sheets 업데이트 → 경영진 보고</div></li>
+          </ol>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+            <p class="text-xs font-semibold text-emerald-700 mb-1">핵심 검증</p>
+            <ul class="text-xs text-emerald-800 space-y-0.5 list-disc list-inside">
+              <li>전략과제 현황 파악 소요시간 (메일/회의 기반 vs 채널 기반)</li>
+              <li>과제 이슈의 발견~해결 리드타임</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 5 ===================== -->
+    <section id="part5" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-green-200">
+        <span class="text-3xl">💬</span>
+        <div>
+          <p class="text-xs text-green-600 font-semibold uppercase tracking-wider">Part 5</p>
+          <h2 class="text-2xl font-bold text-gray-900">Slack 채널 전체 맵</h2>
+        </div>
+      </div>
+      <div class="bg-green-50 border-l-4 border-green-400 rounded-r-lg p-4 mb-6 text-sm text-green-900">
+        PoC에서 개설할 채널 전체 목록입니다. 너무 많으면 혼란이 되므로, 아래를 기준으로 실제 PoC 범위에 맞게 조정하세요.
+      </div>
+
+      <!-- 전사 공통 -->
+      <div class="mb-6">
+        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span> 전사 공통 채널</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-green-50"><th class="border border-green-200 px-3 py-2 text-left font-semibold text-green-800">채널명</th><th class="border border-green-200 px-3 py-2 text-left font-semibold text-green-800">유형</th><th class="border border-green-200 px-3 py-2 text-left font-semibold text-green-800">용도</th><th class="border border-green-200 px-3 py-2 text-left font-semibold text-green-800">게시 권한</th></tr></thead>
+            <tbody>
+              <tr class="hover:bg-green-50"><td class="border border-green-100 px-3 py-2 font-mono text-xs">#company-notice</td><td class="border border-green-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-green-100 px-3 py-2 text-xs">전사 공지</td><td class="border border-green-100 px-3 py-2 text-xs">총무/경영진만 게시, 전사 읽기</td></tr>
+              <tr class="hover:bg-green-50"><td class="border border-green-100 px-3 py-2 font-mono text-xs">#company-general</td><td class="border border-green-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-green-100 px-3 py-2 text-xs">자유 소통</td><td class="border border-green-100 px-3 py-2 text-xs">전사 오픈</td></tr>
+              <tr class="hover:bg-green-50"><td class="border border-green-100 px-3 py-2 font-mono text-xs">#it-helpdesk</td><td class="border border-green-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-green-100 px-3 py-2 text-xs">IT 요청 접수</td><td class="border border-green-100 px-3 py-2 text-xs">전사 → IT운영</td></tr>
+              <tr class="hover:bg-green-50"><td class="border border-green-100 px-3 py-2 font-mono text-xs">#it-system-status</td><td class="border border-green-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-green-100 px-3 py-2 text-xs">시스템 상태 공지</td><td class="border border-green-100 px-3 py-2 text-xs">IT운영 게시, 전사 읽기</td></tr>
+              <tr class="hover:bg-green-50"><td class="border border-green-100 px-3 py-2 font-mono text-xs">#facility-request</td><td class="border border-green-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-green-100 px-3 py-2 text-xs">시설/비품 요청</td><td class="border border-green-100 px-3 py-2 text-xs">전사 → 총무</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 기획관리 본부 -->
+      <div class="mb-6">
+        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span> 기획관리 본부 채널</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-blue-50"><th class="border border-blue-200 px-3 py-2 text-left font-semibold text-blue-800">채널명</th><th class="border border-blue-200 px-3 py-2 text-left font-semibold text-blue-800">유형</th><th class="border border-blue-200 px-3 py-2 text-left font-semibold text-blue-800">용도</th></tr></thead>
+            <tbody>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#team-sales-support</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">영업지원팀 내부</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#team-admin</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">총무팀 내부</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#team-strategy</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">전략기획부문 내부</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#sales-support</td><td class="border border-blue-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">영업 지원 요청 (영업지원 ↔ F&amp;B영업)</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#contract-review</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">계약/견적 검토 (영업지원 ↔ F&amp;B영업)</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#sales-data</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">매출 실적 공유</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#exec-report</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">경영진 보고 준비</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-mono text-xs">#strategy-weekly</td><td class="border border-blue-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-blue-100 px-3 py-2 text-xs">주간 전략회의</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CMO 본부 -->
+      <div class="mb-6">
+        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-pink-500 inline-block"></span> CMO 본부 채널</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-pink-50"><th class="border border-pink-200 px-3 py-2 text-left font-semibold text-pink-800">채널명</th><th class="border border-pink-200 px-3 py-2 text-left font-semibold text-pink-800">유형</th><th class="border border-pink-200 px-3 py-2 text-left font-semibold text-pink-800">용도</th></tr></thead>
+            <tbody>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#team-samdasu</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">삼다수사업본부 내부</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#team-design</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">디자인팀 내부</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#team-brand</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">브랜드전략 내부</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#team-cmo-strategy</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">CMO전략 내부</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#samdasu-daily</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">삼다수 일일 현황</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#samdasu-issue</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">삼다수 긴급 이슈</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#sales-online</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">온라인 영업</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#sales-offline</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">오프라인 영업</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#sales-promo</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">프로모션 통합 (온+오프+사업+브랜드)</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#sales-weekly</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">F&amp;B 영업 주간 리뷰</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#design-request</td><td class="border border-pink-100 px-3 py-2"><span class="text-green-600 text-xs font-semibold">🌐 공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">디자인 요청 접수 (전사 → 디자인)</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#design-review</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">시안 리뷰·피드백</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#cmo-leadership</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">CMO 리더십</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#cmo-weekly</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">CMO 본부 주간 보고</td></tr>
+              <tr class="hover:bg-pink-50"><td class="border border-pink-100 px-3 py-2 font-mono text-xs">#cmo-budget</td><td class="border border-pink-100 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-pink-100 px-3 py-2 text-xs">마케팅 예산 관리</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 운영부서 + 프로젝트 채널 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-slate-500 inline-block"></span> 운영부서 채널</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-slate-100"><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">채널명</th><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">유형</th><th class="border border-slate-300 px-3 py-2 text-left font-semibold text-slate-700">용도</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-it</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">IT운영팀 내부</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#team-security</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">정보보호팀 내부</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#poc-admin</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">PoC 관리자 전용 (IT운영+정보보호)</td></tr>
+                <tr class="hover:bg-slate-50"><td class="border border-slate-200 px-3 py-2 font-mono text-xs">#security-alert</td><td class="border border-slate-200 px-3 py-2"><span class="text-red-600 text-xs font-semibold">🔒 비공개</span></td><td class="border border-slate-200 px-3 py-2 text-xs">보안 알림 (DLP 탐지, 비정상 접근)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span> 프로젝트 채널 (필요 시)</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr class="bg-purple-50"><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">채널명 패턴</th><th class="border border-purple-200 px-3 py-2 text-left font-semibold text-purple-800">용도</th></tr></thead>
+              <tbody>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-mono text-xs">#brand-campaign-[캠페인명]</td><td class="border border-purple-100 px-3 py-2 text-xs">캠페인 단위 (종료 후 아카이빙)</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-mono text-xs">#launch-[제품명]</td><td class="border border-purple-100 px-3 py-2 text-xs">신제품/시즌 론칭 프로젝트</td></tr>
+                <tr class="hover:bg-purple-50"><td class="border border-purple-100 px-3 py-2 font-mono text-xs">#project-[과제명]</td><td class="border border-purple-100 px-3 py-2 text-xs">전략과제 단위</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Part 6 ===================== -->
+    <section id="part6" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-amber-200">
+        <span class="text-3xl">📁</span>
+        <div>
+          <p class="text-xs text-amber-600 font-semibold uppercase tracking-wider">Part 6</p>
+          <h2 class="text-2xl font-bold text-gray-900">GWS 공유 드라이브 구조 (권장)</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <!-- 기획관리 -->
+        <div class="bg-blue-50 rounded-xl border border-blue-200 p-4">
+          <p class="text-sm font-bold text-blue-800 mb-3 flex items-center gap-2">🏢 기획관리 본부</p>
+          <div class="text-xs text-blue-900 font-mono space-y-1 leading-relaxed">
+            <p>📂 영업지원</p>
+            <p class="pl-4">📁 거래처별</p>
+            <p class="pl-8 text-blue-600">계약서 / 견적서 / 거래이력</p>
+            <p class="pl-4">📁 매출실적</p>
+            <div class="border-t border-blue-200 my-1.5"></div>
+            <p>📂 총무</p>
+            <p class="pl-4">📁 사내규정</p>
+            <p class="pl-4">📁 시설관리</p>
+            <p class="pl-4">📁 전사공지 아카이브</p>
+            <div class="border-t border-blue-200 my-1.5"></div>
+            <p>📂 전략기획</p>
+            <p class="pl-4">📁 경영보고서</p>
+            <p class="pl-4">📁 전략과제별</p>
+            <p class="pl-4">📁 KPI·대시보드</p>
+          </div>
+        </div>
+        <!-- CMO -->
+        <div class="bg-pink-50 rounded-xl border border-pink-200 p-4">
+          <p class="text-sm font-bold text-pink-800 mb-3 flex items-center gap-2">📣 CMO 본부</p>
+          <div class="text-xs text-pink-900 font-mono space-y-1 leading-relaxed">
+            <p>📂 삼다수사업</p>
+            <p class="pl-4">📁 사업계획</p>
+            <p class="pl-4">📁 실적데이터</p>
+            <p class="pl-4">📁 이슈보고서</p>
+            <div class="border-t border-pink-200 my-1.5"></div>
+            <p>📂 디자인</p>
+            <p class="pl-4">📁 브랜드가이드라인</p>
+            <p class="pl-4">📁 프로젝트별</p>
+            <p class="pl-8 text-pink-600">최종 / 작업파일</p>
+            <div class="border-t border-pink-200 my-1.5"></div>
+            <p>📂 F&amp;B영업</p>
+            <p class="pl-4">📁 거래처별</p>
+            <p class="pl-4">📁 프로모션</p>
+            <p class="pl-4">📁 영업자료</p>
+            <div class="border-t border-pink-200 my-1.5"></div>
+            <p>📂 브랜드전략</p>
+            <p class="pl-4">📁 캠페인별</p>
+            <p class="pl-4">📁 브랜드에셋</p>
+            <div class="border-t border-pink-200 my-1.5"></div>
+            <p>📂 CMO전략</p>
+            <p class="pl-4">📁 예산관리</p>
+            <p class="pl-4">📁 주간·월간보고</p>
+          </div>
+        </div>
+        <!-- 운영 -->
+        <div class="bg-slate-50 rounded-xl border border-slate-200 p-4">
+          <p class="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">⚙️ 운영부서</p>
+          <div class="text-xs text-slate-900 font-mono space-y-1 leading-relaxed">
+            <p>📂 IT운영</p>
+            <p class="pl-4">📁 SOP·매뉴얼</p>
+            <p class="pl-4">📁 IT자산관리</p>
+            <p class="pl-4">📁 장애보고서</p>
+            <p class="pl-4">📁 PoC 관리</p>
+            <p class="pl-8 text-slate-500">사용량 대시보드</p>
+            <p class="pl-8 text-slate-500">설정 이력</p>
+            <div class="border-t border-slate-200 my-1.5"></div>
+            <p>📂 정보보호</p>
+            <p class="pl-4">📁 보안 가이드라인</p>
+            <p class="pl-4">📁 보안 점검 보고서</p>
+            <p class="pl-4">📁 이슈 조사 보고서</p>
+            <p class="pl-4">📁 PoC 보안 평가</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-xl p-5">
+        <p class="text-sm font-semibold text-amber-800 mb-3">🔒 Drive 접근 권한 원칙</p>
+        <ul class="text-sm text-amber-900 space-y-1.5 list-disc list-inside">
+          <li>각 본부 드라이브는 해당 본부 구성원만 기본 접근</li>
+          <li>크로스 본부 협업 문서는 프로젝트 채널 단위로 별도 폴더 공유</li>
+          <li>운영부서 드라이브는 IT운영+정보보호만 접근 (관리 문서 특성상)</li>
+          <li><span class="font-bold text-red-700">1등급(비밀) 문서는 GWS 공유 드라이브에 저장 금지</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== Part 7 ===================== -->
+    <section id="part7" class="mb-14">
+      <div class="flex items-center gap-3 mb-8 pb-4 border-b-2 border-emerald-300">
+        <span class="text-3xl">📊</span>
+        <div>
+          <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wider">Part 7</p>
+          <h2 class="text-2xl font-bold text-gray-900">PoC 성과 측정 종합</h2>
+        </div>
+      </div>
+      <div class="bg-emerald-50 border-l-4 border-emerald-400 rounded-r-lg p-4 mb-8 text-sm text-emerald-900">
+        각 부서 시나리오에서 정의한 측정 지표를 종합하여, PoC Go/No-Go 판단의 근거로 활용합니다.
+      </div>
+
+      <!-- 업무 효율 -->
+      <div class="mb-8">
+        <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-emerald-500 text-white text-xs flex items-center justify-center font-bold">①</span>
+          업무 효율화 지표
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-emerald-50">
+              <th class="border border-emerald-200 px-3 py-2 text-left font-semibold text-emerald-800">부서</th>
+              <th class="border border-emerald-200 px-3 py-2 text-left font-semibold text-emerald-800">시나리오</th>
+              <th class="border border-emerald-200 px-3 py-2 text-left font-semibold text-emerald-800">측정 지표</th>
+              <th class="border border-emerald-200 px-3 py-2 text-left font-semibold text-emerald-800">목표</th>
+            </tr></thead>
+            <tbody>
+              <tr class="hover:bg-emerald-50"><td class="border border-emerald-100 px-3 py-2 font-medium text-xs">영업지원팀</td><td class="border border-emerald-100 px-3 py-2 text-xs">견적서·계약서 검토</td><td class="border border-emerald-100 px-3 py-2 text-xs">검토 요청~완료 리드타임</td><td class="border border-emerald-100 px-3 py-2 text-xs text-emerald-700">AS-IS 대비 50% 단축</td></tr>
+              <tr class="hover:bg-emerald-50"><td class="border border-emerald-100 px-3 py-2 font-medium text-xs">전략기획</td><td class="border border-emerald-100 px-3 py-2 text-xs">경영보고서 공동 작성</td><td class="border border-emerald-100 px-3 py-2 text-xs">취합/합본 작업 소요시간</td><td class="border border-emerald-100 px-3 py-2 text-xs text-emerald-700">수작업 합본 제로화</td></tr>
+              <tr class="hover:bg-emerald-50"><td class="border border-emerald-100 px-3 py-2 font-medium text-xs">삼다수사업</td><td class="border border-emerald-100 px-3 py-2 text-xs">긴급 이슈 대응</td><td class="border border-emerald-100 px-3 py-2 text-xs">이슈 발생 → 관련자 전원 인지 소요시간</td><td class="border border-emerald-100 px-3 py-2 text-xs text-emerald-700">30분 이내</td></tr>
+              <tr class="hover:bg-emerald-50"><td class="border border-emerald-100 px-3 py-2 font-medium text-xs">디자인팀</td><td class="border border-emerald-100 px-3 py-2 text-xs">디자인 요청~납품</td><td class="border border-emerald-100 px-3 py-2 text-xs">요청~최종 납품 평균 소요일</td><td class="border border-emerald-100 px-3 py-2 text-xs text-emerald-700">AS-IS 대비 30% 단축</td></tr>
+              <tr class="hover:bg-emerald-50"><td class="border border-emerald-100 px-3 py-2 font-medium text-xs">CMO전략</td><td class="border border-emerald-100 px-3 py-2 text-xs">주간 보고 취합</td><td class="border border-emerald-100 px-3 py-2 text-xs">보고 자료 준비 소요시간</td><td class="border border-emerald-100 px-3 py-2 text-xs text-emerald-700">AS-IS 대비 40% 단축</td></tr>
+              <tr class="hover:bg-emerald-50"><td class="border border-emerald-100 px-3 py-2 font-medium text-xs">IT운영팀</td><td class="border border-emerald-100 px-3 py-2 text-xs">IT 요청 처리</td><td class="border border-emerald-100 px-3 py-2 text-xs">접수~해결 평균 소요시간</td><td class="border border-emerald-100 px-3 py-2 text-xs text-emerald-700">AS-IS 대비 40% 단축</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 커뮤니케이션 품질 -->
+      <div class="mb-8">
+        <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-blue-500 text-white text-xs flex items-center justify-center font-bold">②</span>
+          커뮤니케이션 품질 지표
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-blue-50"><th class="border border-blue-200 px-3 py-2 text-left font-semibold text-blue-800">지표</th><th class="border border-blue-200 px-3 py-2 text-left font-semibold text-blue-800">측정 방법</th><th class="border border-blue-200 px-3 py-2 text-left font-semibold text-blue-800">목표</th></tr></thead>
+            <tbody>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-medium text-xs">전사 공지 인지율</td><td class="border border-blue-100 px-3 py-2 text-xs">게시 후 24시간 내 👀 리액션 비율</td><td class="border border-blue-100 px-3 py-2 text-xs text-blue-700">80% 이상</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-medium text-xs">최종본 혼선 건수</td><td class="border border-blue-100 px-3 py-2 text-xs">"최종본이 어디 있어?" 문의 발생 건수</td><td class="border border-blue-100 px-3 py-2 text-xs text-blue-700">주 1건 이하</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-medium text-xs">부서 간 정보 누락</td><td class="border border-blue-100 px-3 py-2 text-xs">크로스 본부 시나리오 진행 중 정보 누락 건수</td><td class="border border-blue-100 px-3 py-2 text-xs text-blue-700">AS-IS 대비 70% 감소</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-medium text-xs">마감 준수율</td><td class="border border-blue-100 px-3 py-2 text-xs">Slack 리마인더 기반 보고 마감 준수율</td><td class="border border-blue-100 px-3 py-2 text-xs text-blue-700">90% 이상</td></tr>
+              <tr class="hover:bg-blue-50"><td class="border border-blue-100 px-3 py-2 font-medium text-xs">재확인 핑퐁 감소</td><td class="border border-blue-100 px-3 py-2 text-xs">요청 내용 불명확으로 인한 재확인 횟수</td><td class="border border-blue-100 px-3 py-2 text-xs text-blue-700">AS-IS 대비 60% 감소</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 보안 준수 -->
+      <div class="mb-8">
+        <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-red-600 text-white text-xs flex items-center justify-center font-bold">③</span>
+          보안 준수 지표
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead><tr class="bg-red-50"><th class="border border-red-200 px-3 py-2 text-left font-semibold text-red-800">지표</th><th class="border border-red-200 px-3 py-2 text-left font-semibold text-red-800">측정 방법</th><th class="border border-red-200 px-3 py-2 text-left font-semibold text-red-800">허용 기준</th></tr></thead>
+            <tbody>
+              <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2 font-medium text-xs">문서 등급 정책 위반</td><td class="border border-red-100 px-3 py-2 text-xs">정보보호팀 주간 점검 (GWS 감사 로그)</td><td class="border border-red-100 px-3 py-2 text-xs text-red-700">주 0건 (1등급 GWS 유입)</td></tr>
+              <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2 font-medium text-xs">외부 공유 시도 탐지</td><td class="border border-red-100 px-3 py-2 text-xs">DLP 탐지 알림 + Admin Console 로그</td><td class="border border-red-100 px-3 py-2 text-xs text-red-700">탐지 시 24시간 내 조치</td></tr>
+              <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2 font-medium text-xs">보안 교육 완료율</td><td class="border border-red-100 px-3 py-2 text-xs">PoC 참여자 교육 이수 현황</td><td class="border border-red-100 px-3 py-2 text-xs text-red-700">100%</td></tr>
+              <tr class="hover:bg-red-50"><td class="border border-red-100 px-3 py-2 font-medium text-xs">총 보안 인시던트</td><td class="border border-red-100 px-3 py-2 text-xs">PoC 전 기간 보안 이슈 건수</td><td class="border border-red-100 px-3 py-2 text-xs text-red-700">중대 인시던트 0건</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Go/No-Go 판단 기준 -->
+      <div class="bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl border border-emerald-200 p-6">
+        <h3 class="text-base font-bold text-gray-800 mb-4">🎯 PoC Go/No-Go 판단 기준</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white rounded-xl p-4 border border-green-200">
+            <p class="text-sm font-bold text-green-700 mb-3 flex items-center gap-2">✅ Go 조건</p>
+            <ul class="text-xs text-green-800 space-y-1.5 list-disc list-inside">
+              <li>주요 업무 효율화 지표 3개 이상 목표 달성</li>
+              <li>보안 인시던트 0건 (중대) 유지</li>
+              <li>사용자 만족도 설문 4점 이상 / 5점</li>
+              <li>전사 공지 인지율 80% 이상</li>
+              <li>GWS ↔ 기존 시스템 호환성 이슈 해결 완료</li>
+            </ul>
+          </div>
+          <div class="bg-white rounded-xl p-4 border border-red-200">
+            <p class="text-sm font-bold text-red-700 mb-3 flex items-center gap-2">⛔ No-Go 조건</p>
+            <ul class="text-xs text-red-800 space-y-1.5 list-disc list-inside">
+              <li>1등급 문서 GWS 유입 사고 발생</li>
+              <li>개인정보 유출 사고 발생</li>
+              <li>주요 업무 흐름 단절 (시스템 장애 등)</li>
+              <li>사용자 거부감으로 채택률 50% 미만</li>
+              <li>보안 정책 미준수 반복 (3회 이상/주)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== 스크롤 스파이 스크립트 ========== -->
+  <script>
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const tocLinks = document.querySelectorAll('.toc-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => link.classList.remove('active'));
+          const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(sec => observer.observe(sec));
+  </script>
+
+</body>
+</html>
